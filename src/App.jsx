@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from './components/ui/button';
 import { FormControl, FormLabel, FormMessage } from './components/ui/form';
 
+import Logo from './images/Logo.png';
 import juliet from './images/girl1.jpg';
 import Juliet from './images/BAUTISTA.jpg';
 import Raymart from './images/RAYMART.jpg';
@@ -15,6 +16,7 @@ import Jayann from './images/GERENTE.jpg';
 
 import { CiLocationOn, CiPhone, CiMail  } from "react-icons/ci";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { BsFillSendFill } from "react-icons/bs";
 
 
 function App() {
@@ -29,29 +31,38 @@ function App() {
   };
 
   return (
-    <FormProvider {...methods}>
+    <>
+    
       <div className="h-full flex flex-col">
-        <nav className="bg-white md:flex md:items-center md:justify-between container mx-auto border-none">
-          {/* Menu */}
-          <div className="p-5 flex justify-between items-center">
-            <span className="text-2xl cursor-pointer">
-              <h1 className="text-3xl font-bold">S.U.R.F</h1>
-            </span>
-            <span className="text-3xl cursor-pointer mx-2 md:hidden block" onClick={toggleMenu}>
-              {isOpen ? <IoClose size={30} /> : <IoMenu size={30} />}
-            </span>
-          </div>
-          <ul className={`sm:flex flex-col sm:flex-row w-full sm:space-x-8 items-center absolute sm:static bg-fontblue sm:bg-transparent right-0 p-4 transition-all duration-500 ease-in-out transform ${isOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full"} md:opacity-100 md:flex md:justify-end md:transform-none`}>
-            <li className="py-2"><a href="#" className="text-xl hover:text-cyan-500 duration-500">Home</a></li>
-            <li className="py-2"><a href="#" className="text-xl hover:text-cyan-500 duration-500">Mission</a></li>
-            <li className="py-2"><a href="#" className="text-xl hover:text-cyan-500 duration-500">Team</a></li>
-            <li className="py-2"><a href="#" className="text-xl hover:text-cyan-500 duration-500">Contact</a></li>
-          </ul>
-        </nav>
+        <div className='h-screen'>
+          <nav className="bg-white md:flex md:items-center md:justify-between container mx-auto border-none">
+            {/* Menu */}
+            <div className="p-5 flex justify-between items-center">
+              <span className="cursor-pointer">
+                <a href="" className='flex items-center space-x-2'>
+                  <img src={Logo} alt="Logo" className='w-24 h-auto' />
+                  <span className="text-3xl font-bold">S.U.R.F</span>
+                </a>
+              </span>
+              <span className="text-3xl cursor-pointer mx-2 md:hidden block" onClick={toggleMenu}>
+                {isOpen ? <IoClose size={30} /> : <IoMenu size={30} />}
+              </span>
+            </div>
+            <ul className={`sm:flex flex-col sm:flex-row w-full sm:space-x-8 items-center absolute sm:static bg-fontblue sm:bg-transparent right-0 p-4 transition-all duration-500 ease-in-out transform ${isOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full"} md:opacity-100 md:flex md:justify-end md:transform-none`}>
+              <li className="py-2"><a href="#" className="text-xl hover:text-cyan-500 duration-500">Home</a></li>
+              <li className="py-2"><a href="#" className="text-xl hover:text-cyan-500 duration-500">Mission</a></li>
+              <li className="py-2"><a href="#" className="text-xl hover:text-cyan-500 duration-500">Team</a></li>
+              <li className="py-2"><a href="#" className="text-xl hover:text-cyan-500 duration-500">Contact</a></li>
+            </ul>
+          </nav>
 
-        <main className="flex-grow container mx-auto">
-          {/* Main content */}
-        </main>
+          <main className="flex-grow container mx-auto h-full">
+            <div>
+              <h1>S.U.R.F</h1>
+            </div>
+          </main>
+        </div>
+        
 
         {/* Mission Section */}
         <section className="items-center text-center flex flex-col sm:flex-row justify-evenly container mx-auto">
@@ -121,7 +132,7 @@ function App() {
               </div>
           </div>
         </section>
-
+        <FormProvider {...methods}>
         {/* Contact Section */}
         <section className="items-center flex flex-col container mx-auto">
           <h1 className="text-2xl font-bold py-8">Get In Touch</h1>
@@ -192,9 +203,10 @@ function App() {
                   </FormControl>
                 </div>
 
-                <Button type="submit" className="mt-4 w-full bg-blue-500 text-white">
-                  Submit
+                <Button type="submit" className="w-12 h-12 flex items-center justify-center rounded-full bg-blue-500 text-white">
+                  <BsFillSendFill size={20} />
                 </Button>
+
               </form>
             </div>
 
@@ -225,8 +237,15 @@ function App() {
             </div>
           </div>
         </section>
+        </FormProvider>
       </div>
-    </FormProvider>
+    
+    <footer className="bg-gray-800">
+      <div className="container mx-auto px-4 py-2 sm:px-6 lg:px-8">
+        <p className="text-center text-sm text-gray-400">&copy; 2025 S.U.R.F. All rights reserved.</p>
+      </div>
+    </footer>
+  </>
   );
 }
 

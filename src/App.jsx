@@ -10,9 +10,10 @@ import juliet from './images/girl1.jpg';
 import Juliet from './images/BAUTISTA.jpg';
 import Raymart from './images/RAYMART.jpg';
 import Lloyd from './images/LLOYD.jpg';
-import Nico from './images/NICO.jpg';
+import Nico from './images/NICO.png';
 import Jayson from './images/TOSOC.jpg';
 import Jayann from './images/GERENTE.jpg';
+import miks from './images/BUENAFE.png'
 
 import { CiLocationOn, CiPhone, CiMail  } from "react-icons/ci";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
@@ -111,9 +112,9 @@ function App() {
                 <h2>Frontend Master</h2>
               </div>
               <div className="text-center items-center flex flex-col justify-center w-48">
-                <img src={juliet} alt="juliet" className="h-32 rounded-full" />
+                <img src={miks} alt="juliet" className="h-32 rounded-full" />
                 <h1>Micholo Joaquin Buenafe</h1>
-                <h2>Project Manager</h2>
+                <h2>POGI LANG</h2>
               </div>
               <div className="text-center items-center flex flex-col justify-center w-48">
                 <img src={juliet} alt="juliet" className="h-32 rounded-full" />

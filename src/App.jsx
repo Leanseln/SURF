@@ -1,4 +1,3 @@
-import { useRef, useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Features from "./components/Features";
 import About from "./components/About";
@@ -6,22 +5,9 @@ import Team from "./components/Team";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import Hero from "./images/Home.png";
-import SURF from "./video/SURF.mp4";
 
 function Home() {
-  const videoRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const handlePlayVideo = () => {
-    setIsPlaying(true);
-  };
-
-  useEffect(() => {
-    if (isPlaying && videoRef.current) {
-      videoRef.current.play().catch((error) => console.error("Error playing video:", error));
-    }
-  }, [isPlaying]);
-
+ 
   return (
     <div className="flex flex-col min-h-screen bg-sky-50">
       <Navbar />
@@ -42,7 +28,6 @@ function Home() {
             </h3>
           </div>
           <button
-            onClick={handlePlayVideo}
             className="bg-blue-600 hover:bg-blue-700 transition-colors duration-300 rounded-lg py-3 px-12 text-white shadow-lg w-fit"
           >
             Watch Demo
@@ -52,25 +37,6 @@ function Home() {
           <img src={Hero || "/placeholder.svg"} alt="S.U.R.F Boat" width={500} height={300} />
         </div>
       </section>
-      {isPlaying && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
-          <div className="relative bg-black rounded-lg p-4">
-            <button
-              onClick={() => setIsPlaying(false)}
-              className="absolute top-2 right-2 text-white z-50 px-3 py-1 rounded-full"
-            >
-              ✕
-            </button>
-            <video
-            ref={videoRef}
-            src={SURF}
-            controls
-            className="w-[640px] h-[360px] max-w-full rounded-lg">
-            </video>
-          </div>
-        </div>
-      )}
-
       <main>
         <Features />
         <About />

@@ -1,253 +1,85 @@
-import { useState } from 'react';
-import { IoMenu, IoClose } from "react-icons/io5";
-import { useForm, FormProvider } from 'react-hook-form';
-import { Input } from '@/components/ui/input';
-import { Button } from './components/ui/button';
-import { FormControl, FormLabel, FormMessage } from './components/ui/form';
+import { useRef, useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Features from "./components/Features";
+import About from "./components/About";
+import Team from "./components/Team";
+import Contact from "./components/Contact";
+import Footer from "./components/Footer";
+import Hero from "./images/Home.png";
+import SURF from "./video/SURF.mp4";
 
-import Logo from './images/Logo.png';
-import juliet from './images/girl1.jpg';
-import Juliet from './images/BAUTISTA.jpg';
-import Raymart from './images/RAYMART.jpg';
-import Lloyd from './images/LLOYD.jpg';
-import Nico from './images/NICO.png';
-import Jayson from './images/TOSOC.jpg';
-import Jayann from './images/GERENTE.jpg';
-import miks from './images/BUENAFE.png'
+function Home() {
+  const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-import { CiLocationOn, CiPhone, CiMail  } from "react-icons/ci";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
-import { BsFillSendFill } from "react-icons/bs";
-
-
-function App() {
-  const methods = useForm();
-  const [isOpen, setIsOpen] = useState(false);
-  const { register, handleSubmit, formState: { errors } } = methods;
-
-  const toggleMenu = () => setIsOpen(!isOpen);
-
-  const onSubmit = (data) => {
-    console.log(data);
+  const handlePlayVideo = () => {
+    setIsPlaying(true);
   };
 
+  useEffect(() => {
+    if (isPlaying && videoRef.current) {
+      videoRef.current.play().catch((error) => console.error("Error playing video:", error));
+    }
+  }, [isPlaying]);
+
   return (
-    <>
-    
-      <div className="h-full flex flex-col">
-        <div className='h-screen'>
-          <nav className="bg-white md:flex md:items-center md:justify-between container mx-auto border-none">
-            {/* Menu */}
-            <div className="p-5 flex justify-between items-center">
-              <span className="cursor-pointer">
-                <a href="" className='flex items-center space-x-2'>
-                  <img src={Logo} alt="Logo" className='w-24 h-auto' />
-                  <span className="text-3xl font-bold">S.U.R.F</span>
-                </a>
-              </span>
-              <span className="text-3xl cursor-pointer mx-2 md:hidden block" onClick={toggleMenu}>
-                {isOpen ? <IoClose size={30} /> : <IoMenu size={30} />}
-              </span>
-            </div>
-            <ul className={`sm:flex flex-col sm:flex-row w-full sm:space-x-8 items-center absolute sm:static bg-fontblue sm:bg-transparent right-0 p-4 transition-all duration-500 ease-in-out transform ${isOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full"} md:opacity-100 md:flex md:justify-end md:transform-none`}>
-              <li className="py-2"><a href="#" className="text-xl hover:text-cyan-500 duration-500">Home</a></li>
-              <li className="py-2"><a href="#" className="text-xl hover:text-cyan-500 duration-500">Mission</a></li>
-              <li className="py-2"><a href="#" className="text-xl hover:text-cyan-500 duration-500">Team</a></li>
-              <li className="py-2"><a href="#" className="text-xl hover:text-cyan-500 duration-500">Contact</a></li>
-            </ul>
-          </nav>
-
-          <main className="flex-grow container mx-auto h-full">
-            <div>
-              <h1>S.U.R.F</h1>
-            </div>
-          </main>
+    <div className="flex flex-col min-h-screen bg-sky-50">
+      <Navbar />
+      <section
+        id="home"
+        className="min-h-screen flex flex-col md:flex-row items-center justify-center md:space-x-20 container mx-auto px-4 py-8 md:py-0"
+      >
+        <div className="space-y-10 text-center md:text-left flex flex-col items-center lg:items-start">
+          <div className="space-y-2 ">
+            <h1 className="text-5xl md:text-8xl font-bold text-center lg:text-left text-blue-800">
+              S.U.R.F
+            </h1>
+            <h2 className="text-md md:text-2xl text-center lg:text-left text-gray-700">
+              AI-Powered Miniature <span className="text-orange-500">Boat</span> Prototype.
+            </h2>
+            <h3 className="text-gray-600 text-center lg:text-left text-sm md:text-md">
+              Demonstrating the future of autonomous flood rescue technology.
+            </h3>
+          </div>
+          <button
+            onClick={handlePlayVideo}
+            className="bg-blue-600 hover:bg-blue-700 transition-colors duration-300 rounded-lg py-3 px-12 text-white shadow-lg w-fit"
+          >
+            Watch Demo
+          </button>
         </div>
-        
-
-        {/* Mission Section */}
-        <section className="items-center text-center flex flex-col sm:flex-row justify-evenly container mx-auto">
-          <div className="w-64 text-center my-5">
-            <div className="h-32 text-center items-center flex justify-center font-bold text-2xl">Mission</div>
-            <div className="py-4 px-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto similique atque voluptas exercitationem eos eaque animi hic assumenda qui minus.
-            </div>
+        <div className="hidden lg:block mt-8 lg:mt-0">
+          <img src={Hero || "/placeholder.svg"} alt="S.U.R.F Boat" width={500} height={300} />
+        </div>
+      </section>
+      {isPlaying && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
+          <div className="relative bg-black rounded-lg p-4">
+            <button
+              onClick={() => setIsPlaying(false)}
+              className="absolute top-2 right-2 text-white z-50 px-3 py-1 rounded-full"
+            >
+              ✕
+            </button>
+            <video
+            ref={videoRef}
+            src={SURF}
+            controls
+            className="w-[640px] h-[360px] max-w-full rounded-lg">
+            </video>
           </div>
-          <div className="w-64 text-center">
-            <div className="h-32 text-center items-center flex justify-center font-bold text-2xl">Vision</div>
-            <div className="py-4 px-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto similique atque voluptas exercitationem eos eaque animi hic assumenda qui minus.
-            </div>
-          </div>
-          <div className="w-64 text-center">
-            <div className="h-32 text-center items-center flex justify-center font-bold text-2xl">Goals</div>
-            <div className="py-4 px-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto similique atque voluptas exercitationem eos eaque animi hic assumenda qui minus.
-            </div>
-          </div>
-        </section>
+        </div>
+      )}
 
-        {/* Our Team */}
-        <section className="text-center container mx-auto">
-          <h1 className="text-2xl font-bold py-8">Meet the team</h1>
-            <div className="flex flex-wrap justify-center items-center lg:space-x-12">
-              <div className="text-center items-center flex flex-col justify-center w-48 mb-6">
-                <img src={Raymart} alt="juliet" className="h-32 rounded-full" />
-                <h1>Raymart Sarmiento</h1>
-                <h2>Project Manager</h2>
-              </div>
-              <div className="text-center items-center flex flex-col justify-center w-48 mb-6">
-                <img src={Nico} alt="juliet" className="h-32 rounded-full" />
-                <h1>Leansel Nico Ortega</h1>
-                <h2>Software Developer</h2>
-              </div>
-              <div className="text-center items-center flex flex-col justify-center w-48 mb-6">
-                <img src={Jayson} alt="juliet" className="h-32 rounded-full" />
-                <h1>Marc Jayson Tosoc</h1>
-                <h2>QA Developer</h2>
-              </div>
-              <div className="text-center items-center flex flex-col justify-center w-48 mb-6">
-                <img src={Lloyd} alt="juliet" className="h-32 rounded-full" />
-                <h1>John Lloyd Itliong</h1>
-                <h2>Frontend Master</h2>
-              </div>
-              <div className="text-center items-center flex flex-col justify-center w-48">
-                <img src={miks} alt="juliet" className="h-32 rounded-full" />
-                <h1>Micholo Joaquin Buenafe</h1>
-                <h2>POGI LANG</h2>
-              </div>
-              <div className="text-center items-center flex flex-col justify-center w-48">
-                <img src={juliet} alt="juliet" className="h-32 rounded-full" />
-                <h1>Marcus James Tapang</h1>
-                <h2>Software Developer</h2>
-              </div>
-              <div className="text-center items-center flex flex-col justify-center w-48">
-                <img src={Juliet} alt="juliet" className="h-32 rounded-full" />
-                <h1>Juliet Bautista</h1>
-                <h2>Marketing</h2>
-              </div>
-              <div className="text-center items-center flex flex-col justify-center w-48">
-                <img src={Jayann} alt="juliet" className="h-32 rounded-full" />
-                <h1>Jay Ann Rose Gerente</h1>
-                <h2>Marketing</h2>
-              </div>
-          </div>
-        </section>
-        <FormProvider {...methods}>
-        {/* Contact Section */}
-        <section className="items-center flex flex-col container mx-auto">
-          <h1 className="text-2xl font-bold py-8">Get In Touch</h1>
-          <div className="flex w-full px-20">
-            <div className="w-2/3">
-              <h1>Send us a Message</h1>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                <div className="flex space-x-4">
-                  <div className="w-1/2">
-                    <FormControl>
-                      {/* Correct FormControl structure */}
-                      <div>
-                        <FormLabel>Your Name</FormLabel>
-                        <Input
-                          {...register('name', { required: "Name is required" })}
-                          placeholder="Your Name"
-                        />
-                        <FormMessage>{errors.name?.message}</FormMessage>
-                      </div>
-                    </FormControl>
-                  </div>
-                  <div className="w-1/2">
-                    <FormControl>
-                      <div>
-                        <FormLabel>Email Address</FormLabel>
-                        <Input
-                          {...register('email', { required: "Email is required" })}
-                          placeholder="Email"
-                          type="email"
-                        />
-                        <FormMessage>{errors.email?.message}</FormMessage>
-                      </div>
-                    </FormControl>
-                  </div>
-                </div>
-
-                <div className='w-1/2'>
-                  <FormControl>
-                    <div>
-                      <FormLabel>Phone Number</FormLabel>
-                      <div className="flex items-center border rounded-md">
-                        <h1 className="text-sm pr-1 flex items-center">+63</h1>
-                        <Input
-                          type="tel"
-                          {...register('phone', {
-                            required: "Phone number is required",
-                            pattern: { value: /^[9]{1}[0-9]{9}$/, message: "Invalid phone number" }
-                          })}
-                          className="border-none text-sm"
-                        />
-                      </div>
-                      <FormMessage>{errors.phone?.message}</FormMessage>
-                    </div>
-                  </FormControl>
-                </div>
-
-                <div>
-                  <FormControl>
-                    <div>
-                      <FormLabel>Message</FormLabel>
-                      <textarea
-                        className="border rounded-md p-2 w-full"
-                        {...register('message', { required: "Message is required" })}
-                        placeholder="Your message"
-                      ></textarea>
-                      <FormMessage>{errors.message?.message}</FormMessage>
-                    </div>
-                  </FormControl>
-                </div>
-
-                <Button type="submit" className="w-12 h-12 flex items-center justify-center rounded-full bg-blue-500 text-white">
-                  <BsFillSendFill size={20} />
-                </Button>
-
-              </form>
-            </div>
-
-            <div className="w-1/3">
-              <h1>Contact Information</h1>
-              <div>
-                <div className='flex items-center'>
-                  <CiLocationOn />
-                  <h1>Biglang Awa St., 12th Avenue East Caloocan City</h1>
-                </div>
-                <div className='flex items-center'>
-                  <CiPhone />
-                  <h1>+63 917 956 1531</h1>
-                </div>
-                <div className='flex items-center'>
-                  <CiMail  />
-                  <h1>pioneer_bscs2021@gmail.com</h1>
-                </div>
-              </div>
-              <div className='flex'>
-                <a href="https://www.facebook.com/login" target="_blank" rel="noopener noreferrer">
-                  <FaFacebook />
-                </a>
-                <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-                  <FaInstagram />
-                </a>
-              </div>
-            </div>
-          </div>
-        </section>
-        </FormProvider>
-      </div>
-    
-    <footer className="bg-gray-800">
-      <div className="container mx-auto px-4 py-2 sm:px-6 lg:px-8">
-        <p className="text-center text-sm text-gray-400">&copy; 2025 S.U.R.F. All rights reserved.</p>
-      </div>
-    </footer>
-  </>
+      <main>
+        <Features />
+        <About />
+        <Team />
+        <Contact />
+      </main>
+      <Footer />
+    </div>
   );
 }
 
-export default App;
+export default Home;

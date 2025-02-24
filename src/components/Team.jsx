@@ -38,6 +38,14 @@ function Team() {
           email: "",
         },
         {
+          name: "Marcus James Tapang",
+          role: "Hardware Developer",
+          image: BUENAFE,
+          github: "",
+          linkedin: "",
+          email: "",
+        },
+        {
           name: "Marc Jayson Tosoc",
           role: "Quality Assurance Engineer",
           image: TOSOC,

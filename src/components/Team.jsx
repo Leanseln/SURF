@@ -3,6 +3,7 @@ import NICO from "../images/NICO.jpg"
 import TOSOC from "../images/TOSOC.jpg"
 import LLOYD from "../images/LLOYD.jpg"
 import BUENAFE from "../images/BUENAFE.jpg"
+import MARCUS from "../images/MARCUS.png"
 import BAUTISTA from "../images/BAUTISTA.jpg"
 import GERENTE from "../images/GERENTE.jpg"
 import { FaGithubAlt  , FaLinkedinIn  } from "react-icons/fa";
@@ -40,7 +41,7 @@ function Team() {
         {
           name: "Marcus James Tapang",
           role: "Hardware Developer",
-          image: BUENAFE,
+          image: MARCUS,
           github: "",
           linkedin: "",
           email: "",

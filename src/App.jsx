@@ -6,9 +6,9 @@ import Team from "./components/Team";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import Hero from "./images/Home.png";
-import SURF from "./videos/SURF.mp4";
 
 function Home() {
+  const SURF_TEASER_URL = "https://drive.google.com/file/d/1sdh9cWEnpn3L8SM6wFOpTHFOL_q2QIFc/preview";
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -61,16 +61,16 @@ function Home() {
             >
               ✕
             </button>
-            <video
-            ref={videoRef}
-            src={SURF}
-            controls
-            className="w-[640px] h-[360px] max-w-full rounded-lg">
-            </video>
+            <iframe
+              src={SURF_TEASER_URL}
+              width="640"
+              height="360"
+              allow="autoplay"
+              className="rounded-lg"
+            ></iframe>
           </div>
         </div>
       )}
-
       <main>
         <Features />
         <About />

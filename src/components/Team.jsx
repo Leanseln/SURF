@@ -3,7 +3,7 @@ import NICO from "../images/NICO.jpg"
 import TOSOC from "../images/TOSOC.jpg"
 import LLOYD from "../images/LLOYD.jpg"
 import BUENAFE from "../images/BUENAFE.jpg"
-import MARCUS from "../images/MARCUS.png"
+import MARCUS from "../images/MARCUS.jpg"
 import BAUTISTA from "../images/BAUTISTA.jpg"
 import GERENTE from "../images/GERENTE.jpg"
 import { FaGithubAlt  , FaLinkedinIn  } from "react-icons/fa";
@@ -15,28 +15,31 @@ function Team() {
         { name: "Raymart Sarmiento", 
           role: "Project Manager", 
           image: RAYMART, 
-          github: "", 
-          linkedin: "", 
-          email: "" },
+          github: "https://github.com/RaymartDev", 
+          linkedin: "https://www.linkedin.com/in/raymart-s-lob/", 
+          email: "sarmiento.raymart.bscs2021@gmail.com" 
+        },
         { name: "Leansel Nico Ortega", 
           role: "Software Developer", 
           image: NICO, 
-          github: "", 
-          linkedin: "", 
-          email: "" },
+          github: "https://github.com/Leanseln", 
+          linkedin: "https://www.linkedin.com/in/leansel-nico-ortega-745356262/", 
+          email: "ortega.leanselnico.bscs2021@gmail.com" 
+        },
         { name: "John Lloyd Itliong",
           role: "Software Developer", 
           image: LLOYD, 
-          github: "", 
-          linkedin: "", 
-          email: "" },
+          github: "https://github.com/johnlloyd151", 
+          linkedin: "https://www.linkedin.com/in/john-lloyd-itliong/", 
+          email: "itliong.johnlloyd.bscs2021@gmail.com" 
+        },
         {
           name: "Micholo Joaquin Buenafe",
           role: "Hardware Developer",
           image: BUENAFE,
-          github: "",
+          github: "https://github.com/MicholoJB",
           linkedin: "",
-          email: "",
+          email: "buenafe.micholojoaquin.bscs2021@gmail.com",
         },
         {
           name: "Marcus James Tapang",
@@ -44,31 +47,31 @@ function Team() {
           image: MARCUS,
           github: "",
           linkedin: "",
-          email: "",
+          email: "tapang.marcusjames.bscs2021@gmail.com",
         },
         {
           name: "Marc Jayson Tosoc",
           role: "Quality Assurance Engineer",
           image: TOSOC,
-          github: "",
-          linkedin: "",
-          email: "",
+          github: "https://github.com/PangIskul",
+          linkedin: "https://www.linkedin.com/in/marc-jayson-tosoc-104234302/",
+          email: "tosoc.marcjayson.bscs2019@gmail.com",
         },
         {
           name: "Juliet Bautista",
-          role: "Content Marketing Specialist / Researcher",
+          role: "UI / UX Designer",
           image: BAUTISTA,
-          github: "",
-          linkedin: "",
-          email: "",
+          github: "https://github.com/julsbbb",
+          linkedin: "https://www.linkedin.com/in/juliet-bautista-816a23314/",
+          email: "bautista.juliet.bscs2021@gmail.com",
         },
         {
           name: "Jay Ann Rose Gerente",
-          role: "UI / UX",
+          role: "UI / UX Designer",
           image: GERENTE,
           github: "",
-          linkedin: "",
-          email: "",
+          linkedin: "https://www.linkedin.com/in/jay-ann-rose-gerente-4a19aa30b/",
+          email: "gerente.jayannrose.bscs2021@gmail.com",
         },
       ]
     
@@ -90,7 +93,6 @@ function Team() {
                     <img
                       src={member.image || "/placeholder.svg"}
                       alt={member.name}
-                      className="transition-transform duration-300 group-hover:scale-110"
                     />
                   </div>
                   <div>

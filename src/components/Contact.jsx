@@ -1,16 +1,18 @@
-import { useState } from "react";
-import { useForm, FormProvider } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormLabel, FormMessage, FormField, FormItem } from "@/components/ui/form";
-import { CiLocationOn, CiPhone, CiMail } from "react-icons/ci";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
-import emailjs from "@emailjs/browser";
+"use client"
 
-emailjs.init("buWFsEdX3RiydhvN0");
+import { useState } from "react"
+import { useForm, FormProvider } from "react-hook-form"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Form, FormControl, FormLabel, FormMessage, FormField, FormItem } from "@/components/ui/form"
+import { CiLocationOn, CiPhone, CiMail } from "react-icons/ci"
+import { FaFacebook, FaInstagram } from "react-icons/fa"
+import emailjs from "@emailjs/browser"
+
+emailjs.init("buWFsEdX3RiydhvN0")
 
 function Contact() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const form = useForm({
     defaultValues: {
       firstName: "",
@@ -19,21 +21,22 @@ function Contact() {
       phone: "",
       message: "",
     },
-  });
+  })
 
   const onSubmit = async (data) => {
-    if (isSubmitting) return; // Prevent multiple submissions
-    setIsSubmitting(true);
+    if (isSubmitting) return // Prevent multiple submissions
+    setIsSubmitting(true)
 
     try {
       // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!emailRegex.test(data.email)) {
-        alert("Please enter a valid email address.");
-        return;
+        alert("Please enter a valid email address.")
+        setIsSubmitting(false)
+        return
       }
 
-      console.log("Form Data:", data); // Log form data
+      console.log("Form Data:", data) // Log form data
 
       // Send email to admin using EmailJS
       const adminTemplateParams = {
@@ -42,15 +45,15 @@ function Contact() {
         email: data.email,
         phone: data.phone,
         message: data.message,
-      };
+      }
 
-      console.log("Admin Template Params:", adminTemplateParams); // Log admin template params
+      console.log("Admin Template Params:", adminTemplateParams) // Log admin template params
 
       const adminResponse = await emailjs.send(
         "service_sayw23a", // Replace with your EmailJS Service ID
         "template_9s2gch2", // Replace with your Admin Notification Template ID
-        adminTemplateParams
-      );
+        adminTemplateParams,
+      )
 
       // Send auto-reply to user
       const userTemplateParams = {
@@ -59,60 +62,62 @@ function Contact() {
         email: data.email,
         phone: data.phone,
         message: data.message,
-      };
+      }
 
-      console.log("User Template Params:", userTemplateParams); // Log user template params
+      console.log("User Template Params:", userTemplateParams) // Log user template params
 
       const userResponse = await emailjs.send(
         "service_sayw23a", // Replace with your EmailJS Service ID
         "template_h2tx2i4", // Replace with your Auto-Reply Template ID
-        userTemplateParams
-      );
+        userTemplateParams,
+      )
 
       // Check if both emails were sent successfully
       if (adminResponse.status === 200 && userResponse.status === 200) {
-        alert("Message sent successfully! Check your email for a confirmation.");
-        form.reset(); // Reset the form after successful submission
+        alert("Message sent successfully! Check your email for a confirmation.")
+        form.reset() // Reset the form after successful submission
       } else {
-        alert("Failed to send message. Please try again.");
+        alert("Failed to send message. Please try again.")
       }
     } catch (error) {
-      console.error("Error sending email:", error);
-      alert("An error occurred while sending the message.");
+      console.error("Error sending email:", error)
+      alert("An error occurred while sending the message.")
     } finally {
-      setIsSubmitting(false); // Re-enable the submit button
+      setIsSubmitting(false) // Re-enable the submit button
     }
-  };
+  }
 
   return (
-    <section id="contact" className="py-20 bg-sky-50">
+    <section id="contact" className="py-16 flex items-center bg-sky-50">
       <div className="container mx-auto px-4">
-        <div className="mb-12 space-y-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-blue-800">Contact Us</h2>
-          <p className="text-center text-gray-600 max-w-2xl mx-auto">
+        <div className="mb-6 space-y-2 sm:space-y-3">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-blue-800">
+            Contact Us
+          </h2>
+          <p className="text-center text-gray-600 max-w-2xl mx-auto text-xs sm:text-sm">
             Have questions about S.U.R.F or want to learn more? We&apos;re here to help. Reach out to us!
           </p>
         </div>
 
-        <div className="flex flex-wrap -mx-4">
-          <div className="w-full lg:w-2/3 px-4 mb-8 lg:mb-0">
-            <div className="bg-white p-8 rounded-lg shadow-md h-full">
-              <h3 className="text-2xl font-bold mb-6 text-blue-800">Send us a Message</h3>
+        <div className="flex flex-wrap -mx-2 sm:-mx-4">
+          <div className="w-full lg:w-2/3 px-2 sm:px-4 mb-4 sm:mb-6 lg:mb-0">
+            <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md h-full">
+              <h3 className="text-base sm:text-lg font-bold mb-4 sm:mb-6 text-blue-800">Send us a Message</h3>
               <FormProvider {...form}>
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                       <FormField
                         control={form.control}
                         name="firstName"
                         rules={{ required: "First Name is required" }}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>First Name</FormLabel>
+                            <FormLabel className="text-xs sm:text-sm">First Name</FormLabel>
                             <FormControl>
-                              <Input placeholder="First Name" {...field} />
+                              <Input placeholder="First Name" {...field} className="text-xs sm:text-sm" />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="text-xs" />
                           </FormItem>
                         )}
                       />
@@ -122,27 +127,27 @@ function Contact() {
                         rules={{ required: "Last Name is required" }}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Last Name</FormLabel>
+                            <FormLabel className="text-xs sm:text-sm">Last Name</FormLabel>
                             <FormControl>
-                              <Input placeholder="Last Name" {...field} />
+                              <Input placeholder="Last Name" {...field} className="text-xs sm:text-sm" />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="text-xs" />
                           </FormItem>
                         )}
                       />
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                       <FormField
                         control={form.control}
                         name="email"
                         rules={{ required: "Email is required" }}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Email Address</FormLabel>
+                            <FormLabel className="text-xs sm:text-sm">Email Address</FormLabel>
                             <FormControl>
-                              <Input placeholder="Email" type="email" {...field} />
+                              <Input placeholder="Email" type="email" {...field} className="text-xs sm:text-sm" />
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="text-xs" />
                           </FormItem>
                         )}
                       />
@@ -155,33 +160,37 @@ function Contact() {
                         }}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Phone Number</FormLabel>
+                            <FormLabel className="text-xs sm:text-sm">Phone Number</FormLabel>
                             <FormControl>
                               <div className="flex items-center border rounded-md">
-                                <span className="text-sm px-3 py-2 h-full flex items-center bg-gray-100">
+                                <span className="text-xs sm:text-sm px-2 sm:px-3 py-2 h-full flex items-center bg-gray-100">
                                   +63
                                 </span>
-                                <Input className="border-none" {...field} />
+                                <Input className="border-none text-xs sm:text-sm" {...field} />
                               </div>
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage className="text-xs" />
                           </FormItem>
                         )}
                       />
                     </div>
                     <div>
-                      <FormLabel>Message</FormLabel>
+                      <FormLabel className="text-xs sm:text-sm">Message</FormLabel>
                       <FormControl>
                         <textarea
                           placeholder="Your message"
                           name="message"
-                          className="min-h-[120px] border p-2 w-full rounded-md"
+                          className="min-h-[100px] sm:min-h-[120px] border p-2 w-full rounded-md text-xs sm:text-sm"
                           {...form.register("message", { required: true })}
                         />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-xs" />
                     </div>
-                    <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white" disabled={isSubmitting}>
+                    <Button
+                      type="submit"
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm py-2 h-auto sm:h-10"
+                      disabled={isSubmitting}
+                    >
                       {isSubmitting ? "Submitting..." : "Submit"}
                     </Button>
                   </form>
@@ -189,54 +198,57 @@ function Contact() {
               </FormProvider>
             </div>
           </div>
-          <div className="w-full lg:w-1/3 px-4">
-            <div className="bg-blue-600 text-white p-8 rounded-lg shadow-md h-full flex flex-col relative overflow-hidden">
+          <div className="w-full lg:w-1/3 px-2 sm:px-4">
+            <div className="bg-blue-600 text-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md h-full flex flex-col relative overflow-hidden">
               <div>
-                <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-4">
-                    <CiLocationOn size={24} className="flex-shrink-0 mt-1" />
-                    <p>Biglang Awa St., 12th Avenue East Caloocan City</p>
+                <h3 className="text-base sm:text-lg font-bold mb-4 sm:mb-6">Contact Information</h3>
+                <div className="space-y-3 sm:space-y-4">
+                  <div className="flex items-start space-x-3 sm:space-x-4">
+                    <CiLocationOn size={20} className="flex-shrink-0 mt-1 sm:w-6 sm:h-6" />
+                    <p className="text-xs sm:text-sm">Biglang Awa St., 12th Avenue East Caloocan City</p>
                   </div>
-                  <div className="flex items-center space-x-4">
-                    <CiPhone size={24} />
-                    <p>+63 917 956 1531</p>
+                  <div className="flex items-center space-x-3 sm:space-x-4">
+                    <CiPhone size={20} className="sm:w-6 sm:h-6" />
+                    <p className="text-xs sm:text-sm">+63 917 956 1531</p>
                   </div>
-                  <div className="flex items-center space-x-4">
-                    <CiMail size={24} />
-                    <p>pioneer.bscs.2021@gmail.com</p>
+                  <div className="flex items-center space-x-3 sm:space-x-4">
+                    <CiMail size={20} className="sm:w-6 sm:h-6" />
+                    <p className="text-xs sm:text-sm break-all">pioneer.bscs.2021@gmail.com</p>
                   </div>
                 </div>
               </div>
-              <div className="mt-8 space-y-4">
-                <p className="font-semibold">Follow Us On</p>
+              <div className="mt-6 sm:mt-8 space-y-3 sm:space-y-4">
+                <p className="font-semibold text-xs sm:text-sm">Follow Us On</p>
                 <div className="flex space-x-4">
                   <a
                     href="https://www.facebook.com/login"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-blue-200 transition-colors"
+                    aria-label="Facebook"
                   >
-                    <FaFacebook size={24} />
+                    <FaFacebook size={20} className="sm:w-6 sm:h-6" />
                   </a>
                   <a
                     href="https://www.instagram.com/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-blue-200 transition-colors"
+                    aria-label="Instagram"
                   >
-                    <FaInstagram size={24} />
+                    <FaInstagram size={20} className="sm:w-6 sm:h-6" />
                   </a>
                 </div>
               </div>
-              <div className="absolute -bottom-20 -right-20 w-72 h-72 bg-orange-500 rounded-full opacity-50"></div>
-              <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-yellow-900 rounded-full opacity-30"></div>
+              <div className="absolute -bottom-16 -right-16 sm:-bottom-20 sm:-right-20 w-48 h-48 sm:w-72 sm:h-72 bg-orange-500 rounded-full opacity-50"></div>
+              <div className="absolute -bottom-24 -right-24 sm:-bottom-32 sm:-right-32 w-40 h-40 sm:w-64 sm:h-64 bg-yellow-900 rounded-full opacity-30"></div>
             </div>
           </div>
         </div>
       </div>
     </section>
-  );
+  )
 }
 
-export default Contact;
+export default Contact
+

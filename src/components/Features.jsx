@@ -1,41 +1,67 @@
-import { MdNavigation, MdOutlineSensors, MdOutlineMonitor, MdEmergency } from "react-icons/md";
-import { GiAvoidance } from "react-icons/gi";
-import { FaHouseFloodWater } from "react-icons/fa6";
+import { FaLifeRing, FaBox, FaMapMarkedAlt, FaHome, FaWeight, FaMobileAlt } from "react-icons/fa"
 
 function Features() {
+  const features = [
+    {
+      name: "SOS Signal Detection",
+      desc: "Collect SOS signals from victims and identify their locations using sound and light pattern recognition.",
+      icon: <FaLifeRing className="w-8 h-8 text-blue-600" />,
+    },
+    {
+      name: "Autonomous Navigation",
+      desc: "Navigate flood-affected areas autonomously to deliver emergency supplies to victims.",
+      icon: <FaMapMarkedAlt className="w-8 h-8 text-blue-600" />,
+    },
+    {
+      name: "Real-time Monitoring",
+      desc: "Monitor boat location and identify potential victims to assist rescue teams in their operations.",
+      icon: <FaMobileAlt className="w-8 h-8 text-blue-600" />,
+    },
+    {
+      name: "Safe Return",
+      desc: "Autonomously return to a designated safe location under conditions such as low battery or strong currents.",
+      icon: <FaHome className="w-8 h-8 text-blue-600" />,
+    },
+    {
+      name: "Supply Management",
+      desc: "Verify the availability of emergency supplies on board using a weight sensor.",
+      icon: <FaWeight className="w-8 h-8 text-blue-600" />,
+    },
+    {
+      name: "Information Display",
+      desc: "Display critical information, including SOS status and boat location, on an application interface.",
+      icon: <FaBox className="w-8 h-8 text-blue-600" />,
+    },
+  ]
 
-    const features = [
-        { name: "Autonomous Navigation", desc: "AI-controlled path following", icon: <MdNavigation size={24} /> },
-        { name: "IoT & Sensors", desc: "Track movement and obstacles", icon: <MdOutlineSensors size={24} /> },
-        { name: "Obstacle Avoidance", desc: "AI-driven hazard detection", icon: <GiAvoidance size={24} /> },
-        { name: "Real-time Monitoring", desc: "Continuous status updates", icon: <MdOutlineMonitor size={24} /> },
-        { name: "Environmental Sensing", desc: "Detect water conditions", icon: <FaHouseFloodWater size={24} /> },
-        { name: "Emergency Response", desc: "Quick deployment in crises", icon: <MdEmergency size={24} /> },
-      ]
-    
-      return (
-        <section id="features" className="py-20 bg-sky-100">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col space-y-4 mb-16">
-              <h2 className="text-4xl md:text-5xl text-center font-bold text-blue-800">Features & Technology</h2>
-              <p className="text-gray-700 text-center max-w-2xl mx-auto">
-                Discover the cutting-edge technologies powering S.U.R.F, our AI-driven miniature boat designed for
-                autonomous flood rescue operations.
-              </p>
+  return (
+    <section id="features" className="py-16  flex items-center bg-sky-100 px-4">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-6 sm:mb-8 space-y-2">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-blue-800">Features & Technology</h2>
+          <p className="text-xs sm:text-sm md:text-base text-gray-600 text-center max-w-3xl mx-auto">
+            Discover the cutting-edge technologies powering S.U.R.F, our AI-driven miniature boat designed for
+            autonomous flood rescue operations.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+            >
+              <div className="flex flex-col items-center text-center">
+                <div className="mb-4">{feature.icon}</div>
+                <h3 className="text-lg font-semibold mb-2 text-blue-800">{feature.name}</h3>
+                <p className="text-gray-600 text-sm">{feature.desc}</p>
+              </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-              {features.map((feature, index) => (
-                <div key={index} className="flex flex-col items-center text-center group">
-                  <div className="flex items-center justify-center rounded-full p-4 bg-blue-600 text-white w-16 h-16 mb-4 transition-all duration-300 group-hover:bg-orange-500">
-                    {feature.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2 text-blue-800">{feature.name}</h3>
-                  <p className="text-gray-600">{feature.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )
+          ))}
+        </div>
+      </div>
+    </section>
+  )
 }
-export default Features;
+
+export default Features
+

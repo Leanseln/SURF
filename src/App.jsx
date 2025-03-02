@@ -1,70 +1,74 @@
-import { useRef, useState, useEffect } from "react";
-import Navbar from "./components/Navbar";
-import Features from "./components/Features";
-import About from "./components/About";
-import Team from "./components/Team";
-import Contact from "./components/Contact";
-import Footer from "./components/Footer";
-import Hero from "./images/Home.png";
+"use client"
+
+import { useRef, useState, useEffect } from "react"
+import Navbar from "./components/Navbar"
+import Features from "./components/Features"
+import About from "./components/About"
+import Team from "./components/Team"
+import Contact from "./components/Contact"
+import Footer from "./components/Footer"
+import Hero from "./images/hero_section.png"
 
 function Home() {
-  const SURF_TEASER_URL = "https://drive.google.com/file/d/1sdh9cWEnpn3L8SM6wFOpTHFOL_q2QIFc/preview";
-  const videoRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const SURF_TEASER_URL = "https://drive.google.com/file/d/1sdh9cWEnpn3L8SM6wFOpTHFOL_q2QIFc/preview"
+  const videoRef = useRef(null)
+  const [isPlaying, setIsPlaying] = useState(false)
 
   const handlePlayVideo = () => {
-    setIsPlaying(true);
-  };
+    setIsPlaying(true)
+  }
 
   useEffect(() => {
     if (isPlaying && videoRef.current) {
-      videoRef.current.play().catch((error) => console.error("Error playing video:", error));
+      videoRef.current.play().catch((error) => console.error("Error playing video:", error))
     }
-  }, [isPlaying]);
+  }, [isPlaying])
 
   return (
     <div className="flex flex-col min-h-screen bg-sky-50">
       <Navbar />
-      <section
-        id="home"
-        className="min-h-screen flex flex-col md:flex-row items-center justify-center md:space-x-20 container mx-auto px-4 py-8 md:py-0"
-      >
-        <div className="space-y-10 text-center md:text-left flex flex-col items-center lg:items-start">
-          <div className="space-y-2 ">
-            <h1 className="text-5xl md:text-8xl font-bold text-center lg:text-left text-blue-800">
-              S.U.R.F
-            </h1>
-            <h2 className="text-md md:text-2xl text-center lg:text-left text-gray-700">
-              AI-Powered Miniature <span className="text-orange-500">Boat</span> Prototype.
-            </h2>
-            <h3 className="text-gray-600 text-center lg:text-left text-sm md:text-md">
-              Demonstrating the future of autonomous flood rescue technology.
-            </h3>
+      <section id="home" className="relative min-h-screen flex items-center pt-16 pb-8 px-4 sm:px-6 lg:px-0">
+        <div className="w-full max-w-7xl mx-auto lg:pr-8">
+          <div className="flex flex-col lg:flex-row items-center">
+            <div className="w-full lg:w-1/2 text-center lg:text-left mb-8 lg:mb-0 md:pl-0 lg:pl-16">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-blue-800 mb-4">S.U.R.F</h1>
+              <h2 className="text-xl sm:text-2xl md:text-3xl text-gray-700 mb-2">
+                Supply Unit for Rescue and Floods
+              </h2>
+              <h3 className="text-base sm:text-lg text-gray-600 mb-6">
+                AI-Powered Miniature <span className="text-orange-500">Boat</span> Prototype.
+              </h3>
+              <button
+                onClick={handlePlayVideo}
+                className="bg-blue-600 hover:bg-blue-700 transition-colors duration-300 rounded-lg py-2 px-6 sm:px-8 text-white shadow-lg text-sm sm:text-base"
+              >
+                Watch Teaser
+              </button>
+            </div>
           </div>
-          <button
-            onClick={handlePlayVideo}
-            className="bg-blue-600 hover:bg-blue-700 transition-colors duration-300 rounded-lg py-3 px-12 text-white shadow-lg w-fit"
-          >
-            Watch Demo
-          </button>
         </div>
-        <div className="hidden lg:block mt-8 lg:mt-0">
-          <img src={Hero || "/placeholder.svg"} alt="S.U.R.F Boat" width={500} height={300} />
+        <div className="hidden lg:block absolute right-0 top-1/2 transform -translate-y-1/2 w-1/2 h-full">
+          <img
+            src={Hero || "/placeholder.svg"}
+            alt="S.U.R.F Boat"
+            className="w-full h-full object-contain object-right"
+          />
         </div>
       </section>
       {isPlaying && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
-          <div className="relative bg-black rounded-lg p-4">
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50 p-4">
+          <div className="relative bg-black rounded-lg p-2 sm:p-4 w-full max-w-md md:max-w-xl lg:max-w-5xl">
             <button
               onClick={() => setIsPlaying(false)}
-              className="absolute top-2 right-2 text-white z-50 px-3 py-1 rounded-full"
+              className="absolute top-2 right-1 sm:top-2 sm:right-2 text-white z-50 px-2 py-1 rounded-full text-xs sm:text-sm"
             >
               ✕
             </button>
             <iframe
               src={SURF_TEASER_URL}
-              width="640"
-              height="360"
+              width="100%"
+              height="100%"
+              style={{ aspectRatio: "16/9" }}
               allow="autoplay"
               className="rounded-lg"
             ></iframe>
@@ -79,7 +83,8 @@ function Home() {
       </main>
       <Footer />
     </div>
-  );
+  )
 }
 
-export default Home;
+export default Home
+

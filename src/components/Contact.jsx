@@ -1,5 +1,5 @@
 "use client"
-
+import { toast, Toaster } from 'sonner';
 import { useState } from "react"
 import { useForm, FormProvider } from "react-hook-form"
 import { Input } from "@/components/ui/input"
@@ -74,21 +74,22 @@ function Contact() {
 
       // Check if both emails were sent successfully
       if (adminResponse.status === 200 && userResponse.status === 200) {
-        alert("Message sent successfully! Check your email for a confirmation.")
+        toast.success("Message sent successfully! Check your email for a confirmation.");
         form.reset() // Reset the form after successful submission
       } else {
-        alert("Failed to send message. Please try again.")
+        toast.error("Failed to send message. Please try again.");
       }
     } catch (error) {
       console.error("Error sending email:", error)
-      alert("An error occurred while sending the message.")
+      toast.error("An error occurred while sending the message.");
     } finally {
       setIsSubmitting(false) // Re-enable the submit button
     }
   }
 
   return (
-    <section id="contact" className="py-16 flex items-center bg-sky-50">
+    <>
+    <section id="contact" className="py-16 flex items-center bg-transparent">
       <div className="container mx-auto px-4">
         <div className="mb-6 space-y-2 sm:space-y-3">
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-blue-800">
@@ -113,7 +114,7 @@ function Contact() {
                         rules={{ required: "First Name is required" }}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-xs sm:text-sm">First Name</FormLabel>
+                            <FormLabel className="text-xs sm:text-sm text-black">First Name</FormLabel>
                             <FormControl>
                               <Input placeholder="First Name" {...field} className="text-xs sm:text-sm" />
                             </FormControl>
@@ -127,7 +128,7 @@ function Contact() {
                         rules={{ required: "Last Name is required" }}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-xs sm:text-sm">Last Name</FormLabel>
+                            <FormLabel className="text-xs sm:text-sm text-black">Last Name</FormLabel>
                             <FormControl>
                               <Input placeholder="Last Name" {...field} className="text-xs sm:text-sm" />
                             </FormControl>
@@ -143,7 +144,7 @@ function Contact() {
                         rules={{ required: "Email is required" }}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-xs sm:text-sm">Email Address</FormLabel>
+                            <FormLabel className="text-xs sm:text-sm text-black">Email Address</FormLabel>
                             <FormControl>
                               <Input placeholder="Email" type="email" {...field} className="text-xs sm:text-sm" />
                             </FormControl>
@@ -160,10 +161,10 @@ function Contact() {
                         }}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-xs sm:text-sm">Phone Number</FormLabel>
+                            <FormLabel className="text-xs sm:text-sm text-black">Phone Number</FormLabel>
                             <FormControl>
                               <div className="flex items-center border rounded-md">
-                                <span className="text-xs sm:text-sm px-2 sm:px-3 py-2 h-full flex items-center bg-gray-100">
+                                <span className="text-xs sm:text-sm px-2 sm:px-3 py-2 h-full flex items-center text-black bg-gray-100">
                                   +63
                                 </span>
                                 <Input className="border-none text-xs sm:text-sm" {...field} />
@@ -175,12 +176,12 @@ function Contact() {
                       />
                     </div>
                     <div>
-                      <FormLabel className="text-xs sm:text-sm">Message</FormLabel>
+                      <FormLabel className="text-xs sm:text-sm text-black">Message</FormLabel>
                       <FormControl>
                         <textarea
                           placeholder="Your message"
                           name="message"
-                          className="min-h-[100px] sm:min-h-[120px] border p-2 w-full rounded-md text-xs sm:text-sm"
+                          className="min-h-[30px] sm:min-h-[70px] border p-2 w-full rounded-md text-xs sm:text-sm"
                           {...form.register("message", { required: true })}
                         />
                       </FormControl>
@@ -247,6 +248,9 @@ function Contact() {
         </div>
       </div>
     </section>
+    <Toaster className="fixed top-4 right-4 z-50" />
+    </>
+     
   )
 }
 

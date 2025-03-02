@@ -25,9 +25,9 @@ function Home() {
   }, [isPlaying])
 
   return (
-    <div className="flex flex-col min-h-screen bg-sky-50">
+    <div id="home" className="flex flex-col min-h-screen bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-200 text-white relative overflow-hidden">
       <Navbar />
-      <section id="home" className="relative min-h-screen flex items-center pt-16 pb-8 px-4 sm:px-6 lg:px-0">
+      <section className="relative min-h-screen flex items-center pt-16 pb-8 px-4 sm:px-6 lg:px-0 z-10">
         <div className="w-full max-w-7xl mx-auto lg:pr-8">
           <div className="flex flex-col lg:flex-row items-center">
             <div className="w-full lg:w-1/2 text-center lg:text-left mb-8 lg:mb-0 md:pl-0 lg:pl-16">
@@ -75,7 +75,7 @@ function Home() {
           </div>
         </div>
       )}
-      <main>
+      <main className="z-10">
         <Features />
         <About />
         <Team />
@@ -87,4 +87,3 @@ function Home() {
 }
 
 export default Home
-

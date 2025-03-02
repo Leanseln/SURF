@@ -78,8 +78,8 @@ function Team() {
   ]
 
   return (
-    <section id="team" className="py-16 flex items-center bg-sky-100">
-      <div className="container mx-auto px-4">
+    <section id="team" className="py-16 flex items-center bg-transparent">
+      <div className="container mx-auto px-20">
         <div className="mb-6 sm:mb-8 space-y-2 sm:space-y-3">
           <h3 className="font-semibold text-center text-blue-600 uppercase tracking-wide text-xs">Who We Are</h3>
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-blue-800">

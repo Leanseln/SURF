@@ -35,13 +35,13 @@ function Features() {
   ]
 
   return (
-    <section id="features" className="py-16  flex items-center bg-sky-100 px-4">
-      <div className="container mx-auto px-4">
+    <section id="features" className="py-16  flex items-center z-10 bg-transparent">
+      <div className="container mx-auto px-20">
         <div className="text-center mb-6 sm:mb-8 space-y-2">
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-blue-800">Features & Technology</h2>
           <p className="text-xs sm:text-sm md:text-base text-gray-600 text-center max-w-3xl mx-auto">
             Discover the cutting-edge technologies powering S.U.R.F, our AI-driven miniature boat designed for
-            autonomous flood rescue operations.
+            autonomous flood rescue and supply operations.
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -64,4 +64,5 @@ function Features() {
 }
 
 export default Features
+
 

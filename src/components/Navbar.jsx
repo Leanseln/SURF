@@ -1,12 +1,13 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import Logo from "../images/logosah.png"
+import Logo from "../images/logogo.png"
 import { IoMenu, IoClose } from "react-icons/io5"
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [activeSection, setActiveSection] = useState(null)
   const navRef = useRef(null)
 
   const toggleMenu = () => setIsOpen(!isOpen)
@@ -35,6 +36,39 @@ function Navbar() {
       window.removeEventListener("scroll", handleScroll)
       document.removeEventListener("mousedown", handleClickOutside)
     }
+  }, []) // Removed closeMenu from dependencies
+
+  // Set up intersection observer to detect which section is in view
+  useEffect(() => {
+    const sections = ["home", "features", "about", "team", "contact"]
+    const sectionElements = sections.map((section) => document.getElementById(section))
+
+    const observerOptions = {
+      root: null, // viewport
+      rootMargin: "-50% 0px", // Consider section in view when it's 50% visible
+      threshold: 0, // Trigger as soon as any part is visible
+    }
+
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id)
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions)
+
+    // Observe all section elements if they exist
+    sectionElements.forEach((element) => {
+      if (element) observer.observe(element)
+    })
+
+    return () => {
+      sectionElements.forEach((element) => {
+        if (element) observer.unobserve(element)
+      })
+    }
   }, [])
 
   useEffect(() => {
@@ -59,7 +93,7 @@ function Navbar() {
       <div className="container mx-auto px-4 py-3 sm:py-4">
         <div className="flex justify-between items-center">
           <a href="/" className="flex items-center md:pl-0 lg:pl-12">
-            <img src={Logo || "/placeholder.svg"} alt="Logo" className="w-10 sm:w-10 h-auto " />
+            <img src={Logo || "/placeholder.svg"} alt="Logo" className="w-8 md:w-10 h-auto " />
           </a>
           <div className="md:hidden">
             <button
@@ -81,15 +115,23 @@ function Navbar() {
             `}
           >
             {["home", "features", "about", "team", "contact"].map((item) => (
-              <li key={item} className="py-2 md:py-0 border-b md:border-b-0 border-gray-100 last:border-b-0">
+              <li key={item} className="py-2 md:py-0 border-b md:border-b-0 border-gray-100 last:border-b-0 relative">
                 <a
                   href={`#${item}`}
                   onClick={closeMenu}
-                  className={`block md:inline-block text-center md:text-left hover:text-blue-600 text-sm sm:text-base duration-300 ${
-                    isScrolled ? "text-black" : "text-black"
-                  }`}
+                  className={`block md:inline-block text-center md:text-left hover:text-blue-600 text-sm sm:text-base duration-300 
+                    ${isScrolled ? "text-black" : "text-black"}
+                    ${activeSection === item ? "font-medium" : ""}
+                    relative pb-1
+                  `}
                 >
                   {item.charAt(0).toUpperCase() + item.slice(1)}
+                  {/* Active indicator line */}
+                  <span
+                    className={`absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform origin-left transition-transform duration-300 ease-in-out
+                      ${activeSection === item ? "scale-x-100" : "scale-x-0"}
+                    `}
+                  />
                 </a>
               </li>
             ))}

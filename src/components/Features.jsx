@@ -35,7 +35,7 @@ function Features() {
   ]
 
   return (
-    <section id="features" className="py-16  flex items-center z-10 bg-transparent">
+    <section id="features" className="py-16  flex items-center z-10 ">
       <div className="container mx-auto px-20">
         <div className="text-center mb-6 sm:mb-8 space-y-2">
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-blue-800">Features & Technology</h2>

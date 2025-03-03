@@ -25,7 +25,7 @@ function Home() {
   }, [isPlaying])
 
   return (
-    <div id="home" className="flex flex-col min-h-screen bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-200 text-white relative overflow-hidden">
+    <div id="home" className="flex flex-col min-h-screen bg-gradient-to-br from-blue-400 via-indigo-100 to-purple-400 text-white relative overflow-hidden">
       <Navbar />
       <section className="relative min-h-screen flex items-center pt-16 pb-8 px-4 sm:px-6 lg:px-0 z-10">
         <div className="w-full max-w-7xl mx-auto lg:pr-8">
@@ -47,7 +47,7 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className="hidden lg:block absolute right-0 top-1/2 transform -translate-y-1/2 w-1/2 h-full">
+        <div className="hidden lg:block absolute right-0 top-1/2 transform -translate-y-1/2 w-1/2 h-full pt-20">
           <img
             src={Hero || "/placeholder.svg"}
             alt="S.U.R.F Boat"

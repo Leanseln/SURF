@@ -1,8 +1,10 @@
+import Logo from "../images/logosah.png"
 function Footer() {
     return(
-        <footer className="bg-blue-600 py-4">
-            <div className="container mx-auto px-4">
-                <p className="text-center text-sm text-white">
+        <footer className="bg-white py-2">
+            <div className="container mx-auto px-4 flex justify-center items-center space-x-2">
+                <img src={Logo} alt="" className="w-6 h-auto"/>
+                <p className="text-center text-xs text-black">
                 &copy; {new Date().getFullYear()} S.U.R.F. All rights reserved.
                 </p>
             </div>

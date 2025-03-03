@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import Logo from "../images/LOGO.png"
+import Logo from "../images/logosah.png"
 import { IoMenu, IoClose } from "react-icons/io5"
 
 function Navbar() {
@@ -59,7 +59,7 @@ function Navbar() {
       <div className="container mx-auto px-4 py-3 sm:py-4">
         <div className="flex justify-between items-center">
           <a href="/" className="flex items-center md:pl-0 lg:pl-12">
-            <img src={Logo || "/placeholder.svg"} alt="Logo" className="w-16 sm:w-20 h-auto " />
+            <img src={Logo || "/placeholder.svg"} alt="Logo" className="w-10 sm:w-10 h-auto " />
           </a>
           <div className="md:hidden">
             <button

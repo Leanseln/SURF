@@ -1,5 +1,5 @@
 import RAYMART from "../images/RAYMART.jpg"
-import NICO from "../images/NICO.jpg"
+import NICO from "../images/NICO.png"
 import TOSOC from "../images/TOSOC.jpg"
 import LLOYD from "../images/LLOYD.jpg"
 import BUENAFE from "../images/BUENAFE.jpg"
@@ -47,7 +47,7 @@ function Team() {
       name: "Marcus James Tapang",
       role: "Hardware Developer",
       image: MARCUS,
-      github: "",
+      github: "https://github.com/marcusjeyms11",
       linkedin: "",
       email: "tapang.marcusjames.bscs2021@gmail.com",
     },

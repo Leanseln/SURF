@@ -1,43 +1,35 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import PropTypes from 'prop-types';
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 import Home from "./Home";
 import Login from "./components/Login";
-import SurveyDashboard from './components/SurveyDashboard';
+import SurveyDashboard from "./components/SurveyDashboard";
+
+const ProtectedRoute = ({ children }) => {
+    const { isAuthenticated } = useAuth();
+    return isAuthenticated ? children : <Navigate to="/login" replace />;
+};
 
 function App() {
-    const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-
-    const ProtectedRoute = ({ children }) => {
-        const isAuthenticated = 
-          localStorage.getItem('dashboardAccess') === 'true';
-
-        return isAuthenticated ? 
-          children : 
-          <Navigate to="/login" replace />;
-    };
-
-    ProtectedRoute.propTypes = {
-        children: PropTypes.node.isRequired,
-    };
-
     return (
-        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+        <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
             <Router>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route 
-                        path="/dashboard" 
-                        element={
-                            <ProtectedRoute>
-                                <SurveyDashboard />
-                            </ProtectedRoute>
-                        } 
-                    />
-                </Routes>
+                <AuthProvider>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route 
+                            path="/dashboard" 
+                            element={
+                                <ProtectedRoute>
+                                    <SurveyDashboard />
+                                </ProtectedRoute>
+                            } 
+                        />
+                    </Routes>
+                </AuthProvider>
             </Router>
-        </GoogleOAuthProvider> 
+        </GoogleOAuthProvider>
     );
 }
 

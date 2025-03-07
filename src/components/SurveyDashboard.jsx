@@ -73,6 +73,7 @@ const SurveyDashboard = () => {
           
           // Process all rows into usable format
           const data = rows.slice(1).map(row => {
+            // eslint-disable-next-line no-unused-vars
             return row.map((cell, index) => cell || ''); // Ensure no undefined values
           });
 

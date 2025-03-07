@@ -40,7 +40,7 @@ function Team() {
       role: "Hardware Developer",
       image: BUENAFE,
       github: "https://github.com/MicholoJB",
-      linkedin: "",
+      linkedin: "https://www.linkedin.com/in/micholo-joaquin-buenafe-0a4a822b3",
       email: "buenafe.micholojoaquin.bscs2021@gmail.com",
     },
     {

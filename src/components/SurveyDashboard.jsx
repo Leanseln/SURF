@@ -221,6 +221,14 @@ const SurveyDashboard = () => {
                 Supply Unit for Rescue and Floods - {surveyData.length - 1} Responses
             </CardDescription>
           </div>
+          <div>
+            <button
+              onClick={() => logout(navigate)}
+              className="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300"
+            >
+              Logout
+            </button>
+          </div>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="visualize" className="w-full">
@@ -246,14 +254,6 @@ const SurveyDashboard = () => {
           </Tabs>
         </CardContent>
       </Card>
-      <div>
-      <button
-                    onClick={() => logout(navigate)}
-                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300"
-                >
-                    Logout
-                </button>
-      </div>
     </div>
   );
 };

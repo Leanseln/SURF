@@ -90,7 +90,7 @@ function Contact() {
   return (
     <>
     <section id="contact" className="py-16 flex items-center bg-transparent">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-20">
         <div className="mb-6 space-y-2 sm:space-y-3">
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-blue-800">
             Contact Us

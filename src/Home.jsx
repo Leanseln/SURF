@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react"
+import { useState } from "react"
 import Navbar from "./components/Navbar"
 import Features from "./components/Features"
 import About from "./components/About"
@@ -8,22 +8,15 @@ import Footer from "./components/Footer"
 import Hero from "./images/hero_section.png"
 
 function Home() {
-  const SURF_TEASER_URL = "https://drive.google.com/file/d/1sdh9cWEnpn3L8SM6wFOpTHFOL_q2QIFc/preview"
-  const videoRef = useRef(null)
+  const VIMEO_TEASER_URL = "https://vimeo.com/1063477833"
   const [isPlaying, setIsPlaying] = useState(false)
 
   const handlePlayVideo = () => {
     setIsPlaying(true)
   }
 
-  useEffect(() => {
-    if (isPlaying && videoRef.current) {
-      videoRef.current.play().catch((error) => console.error("Error playing video:", error))
-    }
-  }, [isPlaying])
-
   return (
-    <div  className="flex flex-col min-h-screen bg-gradient-to-br from-blue-400 via-indigo-100 to-purple-400 text-white relative overflow-hidden">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-400 via-indigo-100 to-purple-400 text-white relative overflow-hidden">
       <Navbar />
       <section id="home" className="relative min-h-screen flex items-center pt-16 pb-8 px-4 sm:px-6 lg:px-0 z-10">
         <div className="w-full max-w-7xl mx-auto lg:pr-8">
@@ -63,12 +56,13 @@ function Home() {
               ✕
             </button>
             <iframe
-              src={SURF_TEASER_URL}
+              src={`https://player.vimeo.com/video/1063477833?autoplay=1&muted=1`} // Add autoplay and mute parameters
               width="100%"
               height="100%"
               style={{ aspectRatio: "16/9" }}
-              allow="autoplay"
+              allow="autoplay; fullscreen"
               className="rounded-lg"
+              title="S.U.R.F Teaser"
             ></iframe>
           </div>
         </div>

@@ -1,8 +1,5 @@
 // src/components/SurveyDashboard/VisualizationTab.jsx
-import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { AlertTriangle } from 'lucide-react';
 import ChartDisplay from './ChartDisplay';
 import QuestionSidebar from './QuestionSidebar';
 

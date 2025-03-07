@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext"; // Import useAuth
 
 
-import VisualizationTab from './VisualizationTab/VisualizationTab';
+import VisualizationTab from '../components/VIsualizationTab';
 import DataTable from './DataTable';
 
 const MATRIX_QUESTION_CONFIG = {

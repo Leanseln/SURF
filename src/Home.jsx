@@ -8,7 +8,6 @@ import Footer from "./components/Footer"
 import Hero from "./images/hero_section.png"
 
 function Home() {
-  const VIMEO_TEASER_URL = "https://vimeo.com/1063477833"
   const [isPlaying, setIsPlaying] = useState(false)
 
   const handlePlayVideo = () => {
@@ -16,7 +15,7 @@ function Home() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-400 via-indigo-100 to-purple-400 text-white relative overflow-hidden">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-400 via-indigo-100 to-purple-400 relative overflow-hidden">
       <Navbar />
       <section id="home" className="relative min-h-screen flex items-center pt-16 pb-8 px-4 sm:px-6 lg:px-0 z-10">
         <div className="w-full max-w-7xl mx-auto lg:pr-8">
@@ -56,7 +55,7 @@ function Home() {
               ✕
             </button>
             <iframe
-              src={`https://player.vimeo.com/video/1063477833?autoplay=1&muted=1`} // Add autoplay and mute parameters
+              src={`https://player.vimeo.com/video/1063477833?autoplay=1&muted=1`} 
               width="100%"
               height="100%"
               style={{ aspectRatio: "16/9" }}

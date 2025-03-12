@@ -1,16 +1,54 @@
-// src/components/SurveyDashboard/index.jsx
+/* eslint-disable react/jsx-no-undef */
+// src/pages/UnifiedDashboard.jsx
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Loader2, AlertTriangle } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from "../context/AuthContext"; // Import useAuth
+import { useAuth } from '../context/AuthContext';
+import { getAllMessages, markMessageAsRead, deleteMessage } from '../services/MessageService';
+import { formatDistanceToNow } from 'date-fns';
+import { 
+  Card, 
+  CardContent, 
+  CardHeader, 
+  CardTitle, 
+  CardDescription 
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import { 
+  MoreHorizontal, 
+  Trash2, 
+  Eye, 
+  Mail, 
+  Search, 
+  Loader2,
+  MailOpen,
+  AlertTriangle,
+  Check,
+  MessageSquare,
+  BarChart
+} from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { toast, Toaster } from 'sonner';
+import axios from 'axios';
 
-
-import VisualizationTab from './VisualizationTab';
-import DataTable from './DataTable';
+// Import Survey Dashboard components
+import VisualizationTab from '../components/VisualizationTab';
+import DataTable from '../components/DataTable';
 
 const MATRIX_QUESTION_CONFIG = {
   'Flood Impact and Rescue Challenges': [
@@ -30,10 +68,10 @@ const MATRIX_QUESTION_CONFIG = {
     'How confident are you that this technology can improve flood response efforts?'
   ],
   'Performance of an Autonomous Supply Boat': [
-    'How effective is the boat’s ability to navigate through floodwaters?',
+    "How effective is the boat's ability to navigate through floodwaters?",
     'How well does the boat avoid obstacles like debris and strong currents?',
     'How accurate is the boat in delivering emergency supplies to flood victims?',
-    'How reliable is the boat’s system in extreme flood conditions?',
+    "How reliable is the boat's system in extreme flood conditions?",
     'How efficient is the boat in operating without human intervention?', 
     'How effective is its real-time data transmission to emergency responders?'
   ],
@@ -48,52 +86,80 @@ const MATRIX_QUESTION_CONFIG = {
 };
 
 const SurveyDashboard = () => {
+  // Message Dashboard state
+  const [messages, setMessages] = useState([]);
+  const [isMessagesLoading, setIsMessagesLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedMessage, setSelectedMessage] = useState(null);
+  const [isMessageOpen, setIsMessageOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [messageToDelete, setMessageToDelete] = useState(null);
+  
+  // Survey Dashboard state
   const [surveyData, setSurveyData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isSurveyLoading, setIsSurveyLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [selectedQuestion, setSelectedQuestion] = useState(0);
   const [processedCityData, setProcessedCityData] = useState([]);
+  
+  // General state
+  const [activeTab, setActiveTab] = useState('messages');
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
-  const { logout } = useAuth(); // Get logout function from context
-  const navigate = useNavigate(); // ✅ Get navigate
+  // Fetch messages from Firebase
+  const fetchMessages = async () => {
+    setIsMessagesLoading(true);
+    try {
+      const data = await getAllMessages();
+      setMessages(data);
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+      toast.error('Failed to load messages');
+    } finally {
+      setIsMessagesLoading(false);
+    }
+  };
+
+  // Fetch survey data
+  const fetchSurveyData = async () => {
+    setIsSurveyLoading(true);
+    try {
+      const sheetId = '157pAeb3KPcskuKpjNb4gYhPE2_91ODdBw-FFMGqC9pg';
+      const apiKey = 'AIzaSyD6Hf7lMnKkNgoHrbMvP0RKRQMtbeymtwc';   
+      const sheetName = 'Form Responses 1';
+      const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
+
+      const response = await axios.get(url);
+      const rows = response.data.values;
+
+      if (rows.length) {
+        const headers = rows[0]; // First row is headers
+        
+        // Process all rows into usable format
+        const data = rows.slice(1).map(row => {
+          return row.map((cell) => cell || ''); // Ensure no undefined values
+        });
+
+        setSurveyData([headers, ...data]);
+        setSelectedQuestion(2); // Default to Age Group
+        
+        // Process city data
+        processCityData(headers, data);
+      }
+    } catch (error) {
+      setErrorMessage('Failed to fetch data from Google Sheets');
+      console.error(error);
+    } finally {
+      setIsSurveyLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const sheetId = '157pAeb3KPcskuKpjNb4gYhPE2_91ODdBw-FFMGqC9pg';
-        const apiKey = 'AIzaSyD6Hf7lMnKkNgoHrbMvP0RKRQMtbeymtwc';   
-        const sheetName = 'Form Responses 1';
-        const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
-
-        const response = await axios.get(url);
-        const rows = response.data.values;
-
-        if (rows.length) {
-          const headers = rows[0]; // First row is headers
-          
-          // Process all rows into usable format
-          const data = rows.slice(1).map(row => {
-            // eslint-disable-next-line no-unused-vars
-            return row.map((cell, index) => cell || ''); // Ensure no undefined values
-          });
-
-          setSurveyData([headers, ...data]);
-          setSelectedQuestion(2); // Default to Age Group
-          
-          // Process city data
-          processCityData(headers, data);
-        }
-      } catch (error) {
-        setErrorMessage('Failed to fetch data from Google Sheets');
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
+    fetchMessages();
+    fetchSurveyData();
   }, []);
-  
+
   // Process city data to normalize case and group similar entries
   const processCityData = (headers, data) => {
     const cityQuestionIndex = 7; // Assuming city question is at index 7
@@ -130,7 +196,7 @@ const SurveyDashboard = () => {
     setProcessedCityData(cityData);
   };
 
-  // Group questions by type
+  // Group questions by type for survey visualization
   const getQuestionGroups = () => {
     if (!surveyData || !surveyData[0]) return {};
     
@@ -188,73 +254,357 @@ const SurveyDashboard = () => {
     };
   };
 
-  // Loading state
-  if (isLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="mr-2 h-12 w-12 animate-spin text-blue-500" />
-        <span className="text-xl">Loading survey data...</span>
-      </div>
-    );
-  }
-  
-  if (errorMessage) {
-    return (
-      <div className="min-h-screen bg-gray-50 p-8 flex items-center justify-center">
-        <Alert variant="destructive" className="max-w-md">
-          <AlertTriangle className="h-4 w-4" />
-          <AlertTitle>Data Fetch Error</AlertTitle>
-          <AlertDescription>{errorMessage}</AlertDescription>
-        </Alert>
-      </div>
-    );
-  }
+  // Filter messages based on search term
+  const filteredMessages = messages.filter(message => {
+    const searchFields = [
+      message.firstName,
+      message.lastName,
+      message.email,
+      message.message
+    ].join(' ').toLowerCase();
+    
+    return searchFields.includes(searchTerm.toLowerCase());
+  });
+
+  // Handle viewing a message
+  const handleViewMessage = async (message) => {
+    setSelectedMessage(message);
+    setIsMessageOpen(true);
+    
+    // Mark as read if it's unread
+    if (!message.read) {
+      try {
+        await markMessageAsRead(message.id);
+        // Update the message in the local state
+        setMessages(prevMessages => 
+          prevMessages.map(msg => 
+            msg.id === message.id ? { ...msg, read: true } : msg
+          )
+        );
+      } catch (error) {
+        console.error('Error marking message as read:', error);
+      }
+    }
+  };
+
+  // Handle deleting a message
+  const handleDeleteClick = (message) => {
+    setMessageToDelete(message);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!messageToDelete) return;
+    
+    try {
+      await deleteMessage(messageToDelete.id);
+      setMessages(prevMessages => 
+        prevMessages.filter(msg => msg.id !== messageToDelete.id)
+      );
+      toast.success('Message deleted successfully');
+      setIsDeleteDialogOpen(false);
+      
+      // If the deleted message was the selected one, close the message view
+      if (selectedMessage && selectedMessage.id === messageToDelete.id) {
+        setIsMessageOpen(false);
+      }
+    } catch (error) {
+      console.error('Error deleting message:', error);
+      toast.error('Failed to delete message');
+    }
+  };
+
+  // Count unread messages
+  const unreadCount = messages.filter(msg => !msg.read).length;
+
+  const renderLoadingState = (type) => (
+    <div className="flex justify-center items-center py-12">
+      <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
+      <span className="ml-2">Loading {type} data...</span>
+    </div>
+  );
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-400 via-indigo-100 to-purple-400 flex p-4 sm:p-8">
       <Card className="w-full">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <div>
             <CardTitle className="text-2xl font-bold text-blue-800">
-              S.U.R.F. Survey Dashboard
+              S.U.R.F. Admin Dashboard
             </CardTitle>
             <CardDescription className="mt-2">
-                Supply Unit for Rescue and Floods - {surveyData.length - 1} Responses
+              Manage all project data from one centralized location
             </CardDescription>
           </div>
-          <div>
-            <button
-              onClick={() => logout(navigate)}
-              className="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300"
-            >
-              Logout
-            </button>
-          </div>
+          <Button
+            onClick={() => logout(navigate)}
+            className="bg-blue-800 text-white hover:bg-red-700 transition duration-300"
+          >
+            Logout
+          </Button>
         </CardHeader>
+        
         <CardContent>
-          <Tabs defaultValue="visualize" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="visualize">Visualizations</TabsTrigger>
-              <TabsTrigger value="table">Raw Data</TabsTrigger>
+          <Tabs 
+            defaultValue="messages" 
+            value={activeTab} 
+            onValueChange={setActiveTab}
+            className="w-full"
+          >
+            <TabsList className="grid w-full grid-cols-2 mb-6">
+              <TabsTrigger value="messages" className="flex items-center">
+                <MessageSquare className="mr-2 h-4 w-4" />
+                Messages {unreadCount > 0 && (
+                  <Badge className="ml-2 bg-blue-500">{unreadCount}</Badge>
+                )}
+              </TabsTrigger>
+              <TabsTrigger value="survey" className="flex items-center">
+                <BarChart className="mr-2 h-4 w-4" />
+                Survey Data
+              </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="visualize">
-              <VisualizationTab 
-                surveyData={surveyData}
-                selectedQuestion={selectedQuestion}
-                setSelectedQuestion={setSelectedQuestion}
-                processedCityData={processedCityData}
-                getQuestionGroups={getQuestionGroups}
-                matrixQuestionConfig={MATRIX_QUESTION_CONFIG}
-              />
+            {/* Messages Tab Content */}
+            <TabsContent value="messages">
+              <div className="mb-6 flex flex-col sm:flex-row justify-between gap-4">
+                <div className="relative w-full sm:w-72">
+                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+                  <Input
+                    placeholder="Search messages..."
+                    className="pl-8"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-500">
+                    {messages.length} total messages
+                  </span>
+                  {unreadCount > 0 && (
+                    <Badge className="bg-blue-500">
+                      {unreadCount} unread
+                    </Badge>
+                  )}
+                </div>
+              </div>
+              
+              {isMessagesLoading ? (
+                renderLoadingState("message")
+              ) : filteredMessages.length === 0 ? (
+                <div className="text-center py-12">
+                  <MailOpen className="h-12 w-12 mx-auto text-gray-400 mb-2" />
+                  <p className="text-gray-500">No messages found</p>
+                </div>
+              ) : (
+                <div className="rounded-md border">
+                  <div className="relative w-full overflow-auto">
+                    <table className="w-full caption-bottom text-sm">
+                      <thead className="[&_tr]:border-b">
+                        <tr className="border-b transition-colors hover:bg-gray-50">
+                          <th className="h-12 px-4 text-left align-middle font-medium text-gray-500">
+                            From
+                          </th>
+                          <th className="h-12 px-4 text-left align-middle font-medium text-gray-500 hidden md:table-cell">
+                            Message
+                          </th>
+                          <th className="h-12 px-4 text-left align-middle font-medium text-gray-500">
+                            Received
+                          </th>
+                          <th className="h-12 px-4 text-left align-middle font-medium text-gray-500">
+                            Status
+                          </th>
+                          <th className="h-12 px-4 text-right align-middle font-medium text-gray-500">
+                            Actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="[&_tr:last-child]:border-0">
+                        {filteredMessages.map((message) => (
+                          <tr 
+                            key={message.id}
+                            className={`border-b transition-colors hover:bg-gray-50 cursor-pointer ${
+                              !message.read ? 'bg-blue-50' : ''
+                            }`}
+                            onClick={() => handleViewMessage(message)}
+                          >
+                            <td className="p-4 align-middle font-medium">
+                              <div className="flex flex-col">
+                                <span>{message.firstName} {message.lastName}</span>
+                                <span className="text-xs text-gray-500">{message.email}</span>
+                              </div>
+                            </td>
+                            <td className="p-4 align-middle truncate max-w-xs hidden md:table-cell">
+                              {message.message.length > 60 
+                                ? `${message.message.substring(0, 60)}...` 
+                                : message.message}
+                            </td>
+                            <td className="p-4 align-middle text-sm text-gray-500">
+                              {formatDistanceToNow(new Date(message.createdAt), { addSuffix: true })}
+                            </td>
+                            <td className="p-4 align-middle">
+                              {message.read ? (
+                                <Badge variant="outline" className="flex items-center gap-1">
+                                  <Check className="h-3 w-3" /> Read
+                                </Badge>
+                              ) : (
+                                <Badge className="bg-blue-500 flex items-center gap-1">
+                                  <Mail className="h-3 w-3" /> Unread
+                                </Badge>
+                              )}
+                            </td>
+                            <td className="p-4 align-middle text-right">
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                                  <Button variant="ghost" className="h-8 w-8 p-0">
+                                    <MoreHorizontal className="h-4 w-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                  <DropdownMenuItem onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleViewMessage(message);
+                                  }}>
+                                    <Eye className="mr-2 h-4 w-4" />
+                                    View
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem 
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteClick(message);
+                                    }}
+                                    className="text-red-600 focus:text-red-600"
+                                  >
+                                    <Trash2 className="mr-2 h-4 w-4" />
+                                    Delete
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
             </TabsContent>
             
-            <TabsContent value="table">
-              <DataTable surveyData={surveyData} />
+            {/* Survey Tab Content */}
+            <TabsContent value="survey">
+              {isSurveyLoading ? (
+                renderLoadingState("survey")
+              ) : errorMessage ? (
+                // eslint-disable-next-line react/jsx-no-undef
+                <Alert variant="destructive" className="max-w-md mx-auto">
+                  <AlertTriangle className="h-4 w-4" />
+                  <AlertTitle>Data Fetch Error</AlertTitle>
+                  <AlertDescription>{errorMessage}</AlertDescription>
+                </Alert>
+              ) : (
+                <Tabs defaultValue="visualize" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="visualize">Visualizations</TabsTrigger>
+                    <TabsTrigger value="table">Raw Data</TabsTrigger>
+                  </TabsList>
+                  
+                  <TabsContent value="visualize">
+                    <VisualizationTab 
+                      surveyData={surveyData}
+                      selectedQuestion={selectedQuestion}
+                      setSelectedQuestion={setSelectedQuestion}
+                      processedCityData={processedCityData}
+                      getQuestionGroups={getQuestionGroups}
+                      matrixQuestionConfig={MATRIX_QUESTION_CONFIG}
+                    />
+                  </TabsContent>
+                  
+                  <TabsContent value="table">
+                    <DataTable surveyData={surveyData} />
+                  </TabsContent>
+                </Tabs>
+              )}
             </TabsContent>
           </Tabs>
         </CardContent>
       </Card>
+
+      {/* Message View Dialog */}
+      <Dialog open={isMessageOpen} onOpenChange={setIsMessageOpen}>
+        {selectedMessage && (
+          <DialogContent className="sm:max-w-lg">
+            <DialogHeader>
+              <DialogTitle>Message from {selectedMessage.firstName} {selectedMessage.lastName}</DialogTitle>
+              <DialogDescription>
+                <div className="mt-2 flex flex-col gap-1">
+                  <span>
+                    <span className="font-medium">Email:</span> {selectedMessage.email}
+                  </span>
+                  <span>
+                    <span className="font-medium">Phone:</span> {selectedMessage.phone || 'Not provided'}
+                  </span>
+                  <span>
+                    <span className="font-medium">Received:</span> {new Date(selectedMessage.createdAt).toLocaleString()}
+                  </span>
+                </div>
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-4 border-t pt-4">
+              <h4 className="font-medium mb-2">Message:</h4>
+              <p className="whitespace-pre-wrap">{selectedMessage.message}</p>
+            </div>
+            <DialogFooter className="flex flex-row justify-between sm:justify-between gap-2">
+              <Button
+                variant="outline"
+                onClick={() => setIsMessageOpen(false)}
+              >
+                Close
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  handleDeleteClick(selectedMessage);
+                  setIsMessageOpen(false);
+                }}
+                className="bg-red-600 hover:bg-red-700"
+              >
+                <Trash2 className="mr-2 h-4 w-4" />
+                Delete
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        )}
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-red-500" />
+              Confirm Deletion
+            </DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete this message? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-row justify-between sm:justify-between gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setIsDeleteDialogOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={confirmDelete}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      
+      <Toaster position="top-right" />
     </div>
   );
 };

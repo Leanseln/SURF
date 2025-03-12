@@ -1,56 +1,101 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import eye icons from react-icons
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Loader2 } from 'lucide-react';
 
 const Login = () => {
-    const [password, setPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
-    const navigate = useNavigate();
-    const { login } = useAuth();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  
+  const { loginWithFirebase } = useAuth();
+  const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        login(password, navigate); // ✅ Pass navigate
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+    
+    try {
+      await loginWithFirebase(username, password, navigate);
+      // Navigation is handled inside loginWithFirebase
+    // eslint-disable-next-line no-unused-vars
+    } catch (error) {
+      setError('Invalid login credentials. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-400 via-indigo-100 to-purple-400">
-            <div className="bg-white p-8 rounded-xl shadow-2xl w-96">
-                <h2 className="text-2xl font-bold mb-6 text-center text-blue-800">
-                    Dashboard Login
-                </h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-6 relative">
-                        <label htmlFor="password" className="block text-gray-700 mb-2">
-                            Admin Password
-                        </label>
-                        <input
-                            type={showPassword ? "text" : "password"} // Toggle input type
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10" // Add padding for the icon
-                            required
-                        />
-                        <button
-                            type="button"
-                            onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
-                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-blue-600 transition duration-300 mt-7" // Position the icon
-                        >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Toggle between eye icons */}
-                        </button>
-                    </div>
-                    <button
-                        type="submit"
-                        className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300"
-                    >
-                        Access Dashboard
-                    </button>
-                </form>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-400 via-indigo-100 to-purple-400 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl font-bold text-blue-800">
+            S.U.R.F. Admin Login
+          </CardTitle>
+          <CardDescription>
+            Enter your credentials to access the admin dashboard
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="username" className="text-sm font-medium">
+                Username
+              </label>
+              <Input
+                id="username"
+                type="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter your username"
+                disabled={isLoading}
+                required
+              />
             </div>
-        </div>
-    );
+            <div className="space-y-2">
+              <label htmlFor="password" className="text-sm font-medium">
+                Password
+              </label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                disabled={isLoading}
+                required
+              />
+            </div>
+            
+            {error && (
+              <div className="text-red-500 text-sm">{error}</div>
+            )}
+            
+            <Button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Logging in...
+                </>
+              ) : (
+                'Login'
+              )}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
 };
 
 export default Login;

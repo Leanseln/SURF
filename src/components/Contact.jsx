@@ -8,6 +8,7 @@ import { Form, FormControl, FormLabel, FormMessage, FormField, FormItem } from "
 import { CiLocationOn, CiPhone, CiMail } from "react-icons/ci"
 import { FaFacebook, FaInstagram } from "react-icons/fa"
 import emailjs from "@emailjs/browser"
+import { addMessage } from "../services/MessageService" // Import the Firebase service
 
 emailjs.init("buWFsEdX3RiydhvN0")
 
@@ -31,12 +32,10 @@ function Contact() {
       // Validate email format
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!emailRegex.test(data.email)) {
-        alert("Please enter a valid email address.")
+        toast.error("Please enter a valid email address.");
         setIsSubmitting(false)
         return
       }
-
-      console.log("Form Data:", data) // Log form data
 
       // Send email to admin using EmailJS
       const adminTemplateParams = {
@@ -47,11 +46,9 @@ function Contact() {
         message: data.message,
       }
 
-      console.log("Admin Template Params:", adminTemplateParams) // Log admin template params
-
       const adminResponse = await emailjs.send(
-        "service_sayw23a", // Replace with your EmailJS Service ID
-        "template_9s2gch2", // Replace with your Admin Notification Template ID
+        "service_sayw23a", // Your EmailJS Service ID
+        "template_9s2gch2", // Your Admin Notification Template ID
         adminTemplateParams,
       )
 
@@ -64,13 +61,20 @@ function Contact() {
         message: data.message,
       }
 
-      console.log("User Template Params:", userTemplateParams) // Log user template params
-
       const userResponse = await emailjs.send(
-        "service_sayw23a", // Replace with your EmailJS Service ID
-        "template_h2tx2i4", // Replace with your Auto-Reply Template ID
+        "service_sayw23a", // Your EmailJS Service ID
+        "template_h2tx2i4", // Your Auto-Reply Template ID
         userTemplateParams,
       )
+
+      // Store message in Firebase
+      await addMessage({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.phone,
+        message: data.message,
+      });
 
       // Check if both emails were sent successfully
       if (adminResponse.status === 200 && userResponse.status === 200) {
@@ -80,13 +84,14 @@ function Contact() {
         toast.error("Failed to send message. Please try again.");
       }
     } catch (error) {
-      console.error("Error sending email:", error)
+      console.error("Error sending email or saving message:", error)
       toast.error("An error occurred while sending the message.");
     } finally {
       setIsSubmitting(false) // Re-enable the submit button
     }
   }
 
+  // Rest of the Contact component remains the same
   return (
     <>
     <section id="contact" className="py-16 flex items-center bg-transparent">
@@ -100,13 +105,16 @@ function Contact() {
           </p>
         </div>
 
+        {/* Form and contact info - keeping the same structure */}
         <div className="flex flex-wrap -mx-2 sm:-mx-4">
+          {/* Form section */}
           <div className="w-full lg:w-2/3 px-2 sm:px-4 mb-4 sm:mb-6 lg:mb-0">
             <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md h-full">
               <h3 className="text-base sm:text-lg font-bold mb-4 sm:mb-6 text-blue-800">Send us a Message</h3>
               <FormProvider {...form}>
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
+                    {/* Form fields remain the same */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                       <FormField
                         control={form.control}
@@ -114,9 +122,9 @@ function Contact() {
                         rules={{ required: "First Name is required" }}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-xs sm:text-sm text-black">First Name</FormLabel>
+                            <FormLabel className="text-xs sm:text-sm text-black">First Name <span className='text-red-500'>*</span></FormLabel>
                             <FormControl>
-                              <Input placeholder="First Name" {...field} className="text-xs sm:text-sm" />
+                              <Input {...field} className="text-xs sm:text-sm" />
                             </FormControl>
                             <FormMessage className="text-xs" />
                           </FormItem>
@@ -128,9 +136,9 @@ function Contact() {
                         rules={{ required: "Last Name is required" }}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-xs sm:text-sm text-black">Last Name</FormLabel>
+                            <FormLabel className="text-xs sm:text-sm text-black">Last Name <span className='text-red-500'>*</span></FormLabel>
                             <FormControl>
-                              <Input placeholder="Last Name" {...field} className="text-xs sm:text-sm" />
+                              <Input {...field} className="text-xs sm:text-sm" />
                             </FormControl>
                             <FormMessage className="text-xs" />
                           </FormItem>
@@ -144,9 +152,9 @@ function Contact() {
                         rules={{ required: "Email is required" }}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-xs sm:text-sm text-black">Email Address</FormLabel>
+                            <FormLabel className="text-xs sm:text-sm text-black">Email Address <span className='text-red-500'>*</span></FormLabel>
                             <FormControl>
-                              <Input placeholder="Email" type="email" {...field} className="text-xs sm:text-sm" />
+                              <Input type="email" {...field} className="text-xs sm:text-sm" />
                             </FormControl>
                             <FormMessage className="text-xs" />
                           </FormItem>
@@ -161,7 +169,7 @@ function Contact() {
                         }}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-xs sm:text-sm text-black">Phone Number</FormLabel>
+                            <FormLabel className="text-xs sm:text-sm text-black">Phone Number <span className='text-red-500'>*</span></FormLabel>
                             <FormControl>
                               <div className="flex items-center border rounded-md">
                                 <span className="text-xs sm:text-sm px-2 sm:px-3 py-2 h-full flex items-center text-black bg-gray-100">
@@ -176,10 +184,9 @@ function Contact() {
                       />
                     </div>
                     <div>
-                      <FormLabel className="text-xs sm:text-sm text-black">Message</FormLabel>
+                      <FormLabel className="text-xs sm:text-sm text-black">Message <span className='text-red-500'>*</span></FormLabel>
                       <FormControl>
                         <textarea
-                          placeholder="Your message"
                           name="message"
                           className="min-h-[30px] sm:min-h-[70px] border p-2 w-full rounded-md text-xs sm:text-sm"
                           {...form.register("message", { required: true })}
@@ -199,6 +206,8 @@ function Contact() {
               </FormProvider>
             </div>
           </div>
+          
+          {/* Contact information section - keep the same */}
           <div className="w-full lg:w-1/3 px-2 sm:px-4">
             <div className="bg-blue-600 text-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md h-full flex flex-col relative overflow-hidden">
               <div>
@@ -214,7 +223,7 @@ function Contact() {
                   </div>
                   <div className="flex items-center space-x-3 sm:space-x-4">
                     <CiMail size={20} className="sm:w-6 sm:h-6" />
-                    <p className="text-xs sm:text-sm break-all">pioneer.bscs.2021@gmail.com</p>
+                    <p className="text-xs sm:text-sm break-all">pioneer.bscs.2024@gmail.com</p>
                   </div>
                 </div>
               </div>
@@ -250,9 +259,7 @@ function Contact() {
     </section>
     <Toaster className="fixed top-4 right-4 z-50" />
     </>
-     
   )
 }
 
 export default Contact
-

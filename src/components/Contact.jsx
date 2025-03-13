@@ -90,12 +90,10 @@ function Contact() {
       setIsSubmitting(false) // Re-enable the submit button
     }
   }
-
-  // Rest of the Contact component remains the same
   return (
     <>
     <section id="contact" className="py-16 flex items-center bg-transparent">
-      <div className="container mx-auto px-20">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-16">
         <div className="mb-6 space-y-2 sm:space-y-3">
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-blue-800">
             Contact Us
@@ -105,10 +103,10 @@ function Contact() {
           </p>
         </div>
 
-        {/* Form and contact info - keeping the same structure */}
-        <div className="flex flex-wrap -mx-2 sm:-mx-4">
+        {/* Form and contact info */}
+        <div className="flex flex-col lg:flex-row lg:gap-6">
           {/* Form section */}
-          <div className="w-full lg:w-2/3 px-2 sm:px-4 mb-4 sm:mb-6 lg:mb-0">
+          <div className="w-full lg:w-2/3 mb-6 lg:mb-0">
             <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md h-full">
               <h3 className="text-base sm:text-lg font-bold mb-4 sm:mb-6 text-blue-800">Send us a Message</h3>
               <FormProvider {...form}>
@@ -124,7 +122,7 @@ function Contact() {
                           <FormItem>
                             <FormLabel className="text-xs sm:text-sm text-black">First Name <span className='text-red-500'>*</span></FormLabel>
                             <FormControl>
-                              <Input {...field} className="text-xs sm:text-sm" />
+                              <Input {...field} className="text-xs sm:text-sm w-full" />
                             </FormControl>
                             <FormMessage className="text-xs" />
                           </FormItem>
@@ -138,7 +136,7 @@ function Contact() {
                           <FormItem>
                             <FormLabel className="text-xs sm:text-sm text-black">Last Name <span className='text-red-500'>*</span></FormLabel>
                             <FormControl>
-                              <Input {...field} className="text-xs sm:text-sm" />
+                              <Input {...field} className="text-xs sm:text-sm w-full" />
                             </FormControl>
                             <FormMessage className="text-xs" />
                           </FormItem>
@@ -154,7 +152,7 @@ function Contact() {
                           <FormItem>
                             <FormLabel className="text-xs sm:text-sm text-black">Email Address <span className='text-red-500'>*</span></FormLabel>
                             <FormControl>
-                              <Input type="email" {...field} className="text-xs sm:text-sm" />
+                              <Input type="email" {...field} className="text-xs sm:text-sm w-full" />
                             </FormControl>
                             <FormMessage className="text-xs" />
                           </FormItem>
@@ -171,11 +169,11 @@ function Contact() {
                           <FormItem>
                             <FormLabel className="text-xs sm:text-sm text-black">Phone Number <span className='text-red-500'>*</span></FormLabel>
                             <FormControl>
-                              <div className="flex items-center border rounded-md">
+                              <div className="flex items-center border rounded-md w-full">
                                 <span className="text-xs sm:text-sm px-2 sm:px-3 py-2 h-full flex items-center text-black bg-gray-100">
                                   +63
                                 </span>
-                                <Input className="border-none text-xs sm:text-sm" {...field} />
+                                <Input className="border-none text-xs sm:text-sm flex-1" {...field} />
                               </div>
                             </FormControl>
                             <FormMessage className="text-xs" />
@@ -207,8 +205,8 @@ function Contact() {
             </div>
           </div>
           
-          {/* Contact information section - keep the same */}
-          <div className="w-full lg:w-1/3 px-2 sm:px-4">
+          {/* Contact information section */}
+          <div className="w-full lg:w-1/3">
             <div className="bg-blue-600 text-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md h-full flex flex-col relative overflow-hidden">
               <div>
                 <h3 className="text-base sm:text-lg font-bold mb-4 sm:mb-6">Contact Information</h3>

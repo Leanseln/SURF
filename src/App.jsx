@@ -1,11 +1,14 @@
-// src/App.jsx or src/routes/index.jsx (depends on your project structure)
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import Login from '../src/components/Login';
 import UnifiedDashboard from '../src/components/SurveyDashboard';
-import Home from './Home'; 
+import Home from './Home';
+import Features from './components/Features';
+import About from './components/About';
+import Team from './components/Team';
+import Contact from './components/Contact';
 import { Loader2 } from 'lucide-react';
-// Protected route component
+
 // Protected route component
 // eslint-disable-next-line react/prop-types
 const ProtectedRoute = ({ children }) => {
@@ -30,10 +33,17 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Main site routes */}
         <Route path="/" element={<Home />} />
+        <Route path="/features" element={<Features />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/team" element={<Team />} />
+        <Route path="/contact" element={<Contact />} />
+        
+        {/* Auth routes */}
         <Route path="/login" element={<Login />} />
 
-        {/* Replace separate dashboard routes with the unified dashboard */}
+        {/* Dashboard routes */}
         <Route 
           path="/dashboard" 
           element={

@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-no-undef */
-// src/pages/UnifiedDashboard.jsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -35,7 +34,8 @@ import {
   AlertTriangle,
   Check,
   MessageSquare,
-  BarChart
+  BarChart,
+  Users
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -101,6 +101,7 @@ const SurveyDashboard = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [selectedQuestion, setSelectedQuestion] = useState(0);
   const [processedCityData, setProcessedCityData] = useState([]);
+  const [respondentCount, setRespondentCount] = useState(0);
   
   // General state
   const [activeTab, setActiveTab] = useState('messages');
@@ -143,6 +144,9 @@ const SurveyDashboard = () => {
 
         setSurveyData([headers, ...data]);
         setSelectedQuestion(2); // Default to Age Group
+        
+        // Set respondent count
+        setRespondentCount(data.length);
         
         // Process city data
         processCityData(headers, data);
@@ -324,6 +328,24 @@ const SurveyDashboard = () => {
     </div>
   );
 
+  // Respondent Counter Card Component
+  // eslint-disable-next-line react/prop-types
+  const RespondentCounter = ({ count }) => (
+    <Card className="bg-gradient-to-r from-blue-600 to-blue-800 text-white mb-6">
+      <CardContent className="p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium opacity-80">Total Survey Respondents</p>
+            <h2 className="text-3xl font-bold">{count}</h2>
+          </div>
+          <div className="h-12 w-12 rounded-full bg-blue-500 bg-opacity-30 flex items-center justify-center">
+            <Users className="h-6 w-6" />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-400 via-indigo-100 to-purple-400 flex p-4 sm:p-8">
       <Card className="w-full">
@@ -501,27 +523,32 @@ const SurveyDashboard = () => {
                   <AlertDescription>{errorMessage}</AlertDescription>
                 </Alert>
               ) : (
-                <Tabs defaultValue="visualize" className="w-full">
-                  <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="visualize">Visualizations</TabsTrigger>
-                    <TabsTrigger value="table">Raw Data</TabsTrigger>
-                  </TabsList>
+                <>
+                  {/* Respondent Counter Card */}
+                  <RespondentCounter count={respondentCount} />
                   
-                  <TabsContent value="visualize">
-                    <VisualizationTab 
-                      surveyData={surveyData}
-                      selectedQuestion={selectedQuestion}
-                      setSelectedQuestion={setSelectedQuestion}
-                      processedCityData={processedCityData}
-                      getQuestionGroups={getQuestionGroups}
-                      matrixQuestionConfig={MATRIX_QUESTION_CONFIG}
-                    />
-                  </TabsContent>
-                  
-                  <TabsContent value="table">
-                    <DataTable surveyData={surveyData} />
-                  </TabsContent>
-                </Tabs>
+                  <Tabs defaultValue="visualize" className="w-full">
+                    <TabsList className="grid w-full grid-cols-2">
+                      <TabsTrigger value="visualize">Visualizations</TabsTrigger>
+                      <TabsTrigger value="table">Raw Data</TabsTrigger>
+                    </TabsList>
+                    
+                    <TabsContent value="visualize">
+                      <VisualizationTab 
+                        surveyData={surveyData}
+                        selectedQuestion={selectedQuestion}
+                        setSelectedQuestion={setSelectedQuestion}
+                        processedCityData={processedCityData}
+                        getQuestionGroups={getQuestionGroups}
+                        matrixQuestionConfig={MATRIX_QUESTION_CONFIG}
+                      />
+                    </TabsContent>
+                    
+                    <TabsContent value="table">
+                      <DataTable surveyData={surveyData} />
+                    </TabsContent>
+                  </Tabs>
+                </>
               )}
             </TabsContent>
           </Tabs>

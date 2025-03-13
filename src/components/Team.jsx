@@ -78,21 +78,73 @@ function Team() {
   ]
 
   return (
-    <section id="team" className="py-16 flex items-center bg-transparent">
-      <div className="container mx-auto px-20">
+    <section id="team" className="py-8 md:py-16 flex items-center bg-transparent">
+      <div className="container mx-auto px-4 sm:px-8 md:px-12 lg:px-20">
         <div className="mb-6 sm:mb-8 space-y-2 sm:space-y-3">
           <h3 className="font-semibold text-center text-blue-600 uppercase tracking-wide text-xs">Who We Are</h3>
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-blue-800">
             Meet the Team
           </h2>
-          <p className="text-center text-gray-600 max-w-2xl mx-auto text-xs sm:text-sm">
-            Our diverse team of experts is dedicated to revolutionizing flood rescue operations with <br /> cutting-edge AI and
-            robotics technology.
+          <p className="text-center text-gray-600 max-w-2xl mx-auto text-xs sm:text-sm px-2">
+            Our diverse team of experts is dedicated to revolutionizing flood rescue operations with 
+            cutting-edge AI and robotics technology.
           </p>
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+        
+        {/* Mobile layout (1 column) for extra small screens */}
+        <div className="grid grid-cols-2 gap-6 sm:hidden">
           {teamMembers.map((member, index) => (
-            <div key={index} className="text-center space-y-2 group" >
+            <div key={index} className="text-center space-y-3 group bg-white p-4 rounded-lg shadow-sm">
+              <div className="relative w-24 h-24 mx-auto overflow-hidden rounded-full border-2 border-blue-100 shadow-md transition-transform duration-300 group-hover:scale-105">
+                <img
+                  src={member.image || "/placeholder.svg"}
+                  alt={member.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <h3 className="font-semibold text-sm text-blue-800">{member.name}</h3>
+                <p className="text-xs text-gray-600">{member.role}</p>
+              </div>
+              <div className="flex items-center justify-center space-x-4">
+                {member.github && (
+                  <a
+                    href={member.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-600 hover:text-blue-600 transition-colors"
+                    aria-label={`${member.name}'s GitHub`}
+                  >
+                    <FaGithubAlt className="w-5 h-5" />
+                  </a>
+                )}
+                {member.linkedin && (
+                  <a
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-600 hover:text-blue-600 transition-colors"
+                    aria-label={`${member.name}'s LinkedIn`}
+                  >
+                    <FaLinkedinIn className="w-5 h-5" />
+                  </a>
+                )}
+                <a
+                  href={`mailto:${member.email}`}
+                  className="text-gray-600 hover:text-blue-600 transition-colors"
+                  aria-label={`Email ${member.name}`}
+                >
+                  <BiLogoGmail className="w-5 h-5" />
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        {/* Small screen layout (2 columns) */}
+        <div className="hidden sm:grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+          {teamMembers.map((member, index) => (
+            <div key={index} className="text-center space-y-2 group bg-white p-3 rounded-lg  transition-all duration-300">
               <div className="relative w-16 h-16 xs:w-20 xs:h-20 sm:w-24 sm:h-24 mx-auto overflow-hidden rounded-full border-2 border-blue-100 shadow-md transition-transform duration-300 group-hover:scale-105">
                 <img
                   src={member.image || "/placeholder.svg"}
@@ -144,4 +196,3 @@ function Team() {
 }
 
 export default Team
-

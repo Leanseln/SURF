@@ -26,7 +26,7 @@ function Home() {
                 Supply Unit for Rescue and Floods
               </h2>
               <h3 className="text-base sm:text-lg text-gray-600 mb-6">
-                AI-Powered Miniature <span className="text-orange-500">Boat</span> Prototype.
+                An AI-Powered Miniature <span className="text-orange-500">Boat</span> Prototype designed to deliver essential supplies and assist in rescue operations during floods.
               </h3>
               <button
                 onClick={handlePlayVideo}

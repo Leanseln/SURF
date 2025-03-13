@@ -27,12 +27,10 @@ import {
   MoreHorizontal, 
   Trash2, 
   Eye, 
-  Mail, 
   Search, 
   Loader2,
   MailOpen,
   AlertTriangle,
-  Check,
   MessageSquare,
   BarChart,
   Users
@@ -465,12 +463,12 @@ const SurveyDashboard = () => {
                             </td>
                             <td className="p-4 align-middle">
                               {message.read ? (
-                                <Badge variant="outline" className="flex items-center gap-1">
-                                  <Check className="h-3 w-3" /> Read
+                                <Badge variant="outline" className="flex items-center gap-1 w-fit text-md ">
+                                  Read
                                 </Badge>
                               ) : (
-                                <Badge className="bg-blue-500 flex items-center gap-1">
-                                  <Mail className="h-3 w-3" /> Unread
+                                <Badge className="bg-blue-500 flex items-center gap-1 w-fit text-md">
+                                  Unread
                                 </Badge>
                               )}
                             </td>
@@ -556,51 +554,59 @@ const SurveyDashboard = () => {
       </Card>
 
       {/* Message View Dialog */}
-      <Dialog open={isMessageOpen} onOpenChange={setIsMessageOpen}>
-        {selectedMessage && (
-          <DialogContent className="sm:max-w-lg">
-            <DialogHeader>
-              <DialogTitle>Message from {selectedMessage.firstName} {selectedMessage.lastName}</DialogTitle>
-              <DialogDescription>
-                <div className="mt-2 flex flex-col gap-1">
-                  <span>
-                    <span className="font-medium">Email:</span> {selectedMessage.email}
-                  </span>
-                  <span>
-                    <span className="font-medium">Phone:</span> {selectedMessage.phone || 'Not provided'}
-                  </span>
-                  <span>
-                    <span className="font-medium">Received:</span> {new Date(selectedMessage.createdAt).toLocaleString()}
-                  </span>
-                </div>
-              </DialogDescription>
-            </DialogHeader>
-            <div className="mt-4 border-t pt-4">
-              <h4 className="font-medium mb-2">Message:</h4>
-              <p className="whitespace-pre-wrap">{selectedMessage.message}</p>
-            </div>
-            <DialogFooter className="flex flex-row justify-between sm:justify-between gap-2">
-              <Button
-                variant="outline"
-                onClick={() => setIsMessageOpen(false)}
-              >
-                Close
-              </Button>
-              <Button
-                variant="destructive"
-                onClick={() => {
-                  handleDeleteClick(selectedMessage);
-                  setIsMessageOpen(false);
-                }}
-                className="bg-red-600 hover:bg-red-700"
-              >
-                <Trash2 className="mr-2 h-4 w-4" />
-                Delete
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        )}
-      </Dialog>
+      {/* Message View Dialog */}
+<Dialog open={isMessageOpen} onOpenChange={setIsMessageOpen}>
+  {selectedMessage && (
+    <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto w-[95vw]">
+      <DialogHeader>
+        <DialogTitle className="text-xl break-words">
+          Message from {selectedMessage.firstName} {selectedMessage.lastName}
+        </DialogTitle>
+        <DialogDescription>
+          <div className="mt-2 flex flex-col gap-1">
+            <span className="flex flex-col sm:flex-row sm:items-center gap-1">
+              <span className="font-medium">Email:</span> 
+              <span className="break-all">{selectedMessage.email}</span>
+            </span>
+            <span className="flex flex-col sm:flex-row sm:items-center gap-1">
+              <span className="font-medium">Phone:</span> 
+              <span>{selectedMessage.phone || 'Not provided'}</span>
+            </span>
+            <span className="flex flex-col sm:flex-row sm:items-center gap-1">
+              <span className="font-medium">Received:</span> 
+              <span>{new Date(selectedMessage.createdAt).toLocaleString()}</span>
+            </span>
+          </div>
+        </DialogDescription>
+      </DialogHeader>
+      <div className="mt-4 border-t pt-4">
+        <h4 className="font-medium mb-2">Message:</h4>
+        <div className="whitespace-pre-wrap break-words max-h-[40vh] overflow-y-auto p-2 bg-gray-50 rounded-md">
+          {selectedMessage.message}
+        </div>
+      </div>
+      <DialogFooter className="mt-4 flex flex-col-reverse sm:flex-row sm:justify-between gap-2">
+        <Button
+          variant="outline"
+          onClick={() => setIsMessageOpen(false)}
+          className="w-full sm:w-auto"
+        >
+          Close
+        </Button>
+        <Button
+          variant="destructive"
+          onClick={() => {
+            handleDeleteClick(selectedMessage);
+            setIsMessageOpen(false);
+          }}
+          className="bg-red-600 hover:bg-red-700 w-full sm:w-auto"
+        >
+          Delete
+        </Button>
+      </DialogFooter>
+    </DialogContent>
+  )}
+</Dialog>
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>

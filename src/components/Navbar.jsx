@@ -147,10 +147,10 @@ function Navbar() {
                 >
                   {item.charAt(0).toUpperCase() + item.slice(1)}
                   
-                  {/* Active indicator dot */}
+                  {/* Active indicator line */}
                   <span
-                    className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2
-                      w-1.5 h-1.5 rounded-full bg-blue-600
+                    className={`absolute -bottom-1 left-0 right-0
+                      h-0.5 bg-blue-600
                       transition-all duration-300 ease-in-out
                       ${activeSection === item ? "opacity-100" : "opacity-0"}
                       hidden md:block

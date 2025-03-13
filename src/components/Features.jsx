@@ -1,11 +1,12 @@
-import { FaLifeRing, FaBox, FaMapMarkedAlt, FaHome, FaWeight, FaMobileAlt } from "react-icons/fa"
+import { FaInfo , FaMapMarkedAlt, FaHome, FaWeight, FaMobileAlt } from "react-icons/fa"
+import { MdOutlineSensors } from "react-icons/md";
 
 function Features() {
   const features = [
     {
-      name: "SOS Signal Detection",
-      desc: "Collect SOS signals from victims and identify their locations using sound and light pattern recognition.",
-      icon: <FaLifeRing className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-blue-600" />,
+      name: "Object Detection and Sensors",
+      desc: "Detecting stranded victims, debris, floating hazards, and other obstacles in the water to ensure safe navigation and prevent collisions.",
+      icon: <MdOutlineSensors className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-blue-600" />,
     },
     {
       name: "Autonomous Navigation",
@@ -29,8 +30,8 @@ function Features() {
     },
     {
       name: "Information Display",
-      desc: "Display critical information, including SOS status and boat location, on an application interface.",
-      icon: <FaBox className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-blue-600" />,
+      desc: "Display critical information, including sensors status, boat status and an application interface.",
+      icon: <FaInfo  className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-blue-600" />,
     },
   ]
 

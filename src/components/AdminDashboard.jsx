@@ -45,8 +45,8 @@ import { toast, Toaster } from 'sonner';
 import axios from 'axios';
 
 // Import Survey Dashboard components
-import VisualizationTab from '../components/VisualizationTab';
-import DataTable from '../components/DataTable';
+import VisualizationTab from './VisualizationTab';
+import DataTable from './DataTable';
 
 const MATRIX_QUESTION_CONFIG = {
   'Flood Impact and Rescue Challenges': [

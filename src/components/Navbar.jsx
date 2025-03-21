@@ -135,7 +135,7 @@ function Navbar() {
                   href={`#${item}`}
                   onClick={closeMenu}
                   className={`block md:inline-block text-center md:text-left 
-                    text-sm font-medium tracking-wide uppercase
+                    text-md font-semibold
                     transition-all duration-300 relative
                     ${activeSection === item 
                       ? "text-blue-600" 

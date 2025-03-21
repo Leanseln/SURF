@@ -18,31 +18,38 @@ function Home() {
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-400 via-indigo-100 to-purple-400 relative overflow-hidden">
       <Navbar />
       <section id="home" className="relative min-h-screen flex items-center pt-16 pb-8 px-4 sm:px-6 lg:px-0 z-10">
-        <div className="w-full max-w-7xl mx-auto lg:pr-8 ">
+        <div className="w-full max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row items-center">
-            <div className="w-full lg:w-1/2 text-center lg:text-left mb-8 lg:mb-0 md:pl-0 lg:pl-16">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-blue-800 mb-4">S.U.R.F</h1>
+            {/* Text Content - Full width on mobile, half width on desktop */}
+            <div className="w-full lg:w-1/2 text-center lg:text-left mb-8 lg:mb-0 lg:pl-16">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-blue-800 mb-4 sm:mb-6 tracking-tight leading-none">
+                S.U.R.F
+              </h1>
               <h2 className="text-xl sm:text-2xl md:text-3xl text-gray-700 mb-2">
                 Supply Unit for Rescue and Floods
               </h2>
-              <h3 className="text-base sm:text-lg text-gray-600 mb-6">
-                An AI-Powered Miniature <span className="text-orange-500">Boat</span> Prototype designed to deliver essential supplies and assist in rescue operations during floods.
-              </h3>
+              <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 mx-auto lg:mx-0 max-w-xl">
+                An AI-Powered Miniature <span className="text-orange-500 font-medium">Boat</span> Prototype designed to deliver essential supplies and assist in 
+                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium"> rescue operations during floods</span>.
+              </p>
               <button
                 onClick={handlePlayVideo}
-                className="bg-blue-600 hover:bg-blue-700 transition-colors duration-300 rounded-lg py-2 px-6 sm:px-8 text-white shadow-lg text-sm sm:text-base"
+                className="bg-blue-600 hover:bg-blue-700 transition-colors duration-300 rounded-lg py-2 sm:py-3 px-6 sm:px-8 text-white shadow-lg text-sm sm:text-base md:text-lg font-medium flex items-center mx-auto lg:mx-0 group"
               >
-                Watch Teaser
+                <span>Watch Teaser</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </button>
             </div>
+            <div className="hidden lg:block w-full lg:w-1/2 mt-8 lg:mt-0 lg:absolute lg:right-0 lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:h-full lg:pt-20">
+              <img
+                src={Hero || "/placeholder.svg"}
+                alt="S.U.R.F Boat"
+                className="w-full h-auto md:max-h-96 lg:max-h-none lg:h-full object-contain mx-auto lg:mx-0 lg:object-right"
+              />
+            </div>
           </div>
-        </div>
-        <div className="hidden lg:block absolute right-0 top-1/2 transform -translate-y-1/2 w-1/2 h-full pt-20">
-          <img
-            src={Hero || "/placeholder.svg"}
-            alt="S.U.R.F Boat"
-            className="w-full h-full object-contain object-right"
-          />
         </div>
       </section>
       {isPlaying && (

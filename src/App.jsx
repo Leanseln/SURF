@@ -1,12 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import Login from '../src/components/Login';
-import UnifiedDashboard from '../src/components/SurveyDashboard';
+import UnifiedDashboard from './components/AdminDashboard';
 import Home from './Home';
-import Features from './components/Features';
-import About from './components/About';
-import Team from './components/Team';
-import Contact from './components/Contact';
 import { Loader2 } from 'lucide-react';
 
 // Protected route component
@@ -35,10 +31,6 @@ function App() {
       <Routes>
         {/* Main site routes */}
         <Route path="/" element={<Home />} />
-        <Route path="/features" element={<Features />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/team" element={<Team />} />
-        <Route path="/contact" element={<Contact />} />
         
         {/* Auth routes */}
         <Route path="/login" element={<Login />} />

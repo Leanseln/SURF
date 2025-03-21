@@ -6,9 +6,9 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormLabel, FormMessage, FormField, FormItem } from "@/components/ui/form"
 import { CiLocationOn, CiPhone, CiMail } from "react-icons/ci"
-import { FaFacebook, FaInstagram } from "react-icons/fa"
+import { FaFacebook } from "react-icons/fa"
 import emailjs from "@emailjs/browser"
-import { addMessage } from "../services/MessageService" // Import the Firebase service
+import { addMessage } from "../services/MessageService" 
 
 emailjs.init("buWFsEdX3RiydhvN0")
 
@@ -173,7 +173,24 @@ function Contact() {
                                 <span className="text-xs sm:text-sm px-2 sm:px-3 py-2 h-full flex items-center text-black bg-gray-100">
                                   +63
                                 </span>
-                                <Input className="border-none text-xs sm:text-sm flex-1" {...field} />
+                                <Input 
+                                  className="border-none text-xs sm:text-sm flex-1" 
+                                  {...field} 
+                                  type="tel"
+                                  inputMode="numeric"
+                                  maxLength={10}
+                                  onKeyPress={(e) => {
+                                    // Allow only numeric input
+                                    if (!/[0-9]/.test(e.key)) {
+                                      e.preventDefault();
+                                    }
+                                  }}
+                                  onChange={(e) => {
+                                    // Remove any non-numeric characters and limit to 10 digits
+                                    const value = e.target.value.replace(/[^0-9]/g, '').slice(0, 10);
+                                    field.onChange(value);
+                                  }}
+                                />
                               </div>
                             </FormControl>
                             <FormMessage className="text-xs" />
@@ -194,10 +211,16 @@ function Contact() {
                     </div>
                     <Button
                       type="submit"
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm py-2 h-auto sm:h-10"
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm py-2 h-auto sm:h-10 flex items-center justify-center gap-2"
                       disabled={isSubmitting}
                     >
-                      {isSubmitting ? "Submitting..." : "Submit"}
+                      {isSubmitting ? (
+                        "Submitting..."
+                      ) : (
+                        <>
+                          Send Message
+                        </>
+                      )}
                     </Button>
                   </form>
                 </Form>
@@ -217,7 +240,7 @@ function Contact() {
                   </div>
                   <div className="flex items-center space-x-3 sm:space-x-4">
                     <CiPhone size={20} className="sm:w-6 sm:h-6" />
-                    <p className="text-xs sm:text-sm">+63 917 956 1531</p>
+                    <p className="text-xs sm:text-sm">+63 906 234 2482</p>
                   </div>
                   <div className="flex items-center space-x-3 sm:space-x-4">
                     <CiMail size={20} className="sm:w-6 sm:h-6" />
@@ -226,25 +249,16 @@ function Contact() {
                 </div>
               </div>
               <div className="mt-6 sm:mt-8 space-y-3 sm:space-y-4">
-                <p className="font-semibold text-xs sm:text-sm">Follow Us On</p>
+                <p className="font-semibold text-xs sm:text-sm">Support Us On</p>
                 <div className="flex space-x-4">
                   <a
-                    href="https://www.facebook.com/login"
+                    href="https://www.facebook.com/csdtalkaboutit/videos/624613873867536"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-blue-200 transition-colors"
                     aria-label="Facebook"
                   >
-                    <FaFacebook size={20} className="sm:w-6 sm:h-6" />
-                  </a>
-                  <a
-                    href="https://www.instagram.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-blue-200 transition-colors"
-                    aria-label="Instagram"
-                  >
-                    <FaInstagram size={20} className="sm:w-6 sm:h-6" />
+                    <FaFacebook size={20}  />
                   </a>
                 </div>
               </div>

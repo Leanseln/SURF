@@ -85,7 +85,7 @@ function Team() {
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-blue-800">
             Meet the Team
           </h2>
-          <p className="text-center text-gray-600 max-w-2xl mx-auto text-xs sm:text-sm px-2">
+          <p className="text-xs sm:text-sm md:text-base text-gray-600 text-center max-w-3xl mx-auto px-2">
             Our diverse team of experts is dedicated to revolutionizing flood rescue operations with 
             cutting-edge AI and robotics technology.
           </p>

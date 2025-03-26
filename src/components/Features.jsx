@@ -53,7 +53,7 @@ function Features() {
               className="bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
             >
               <div className="flex flex-col items-center text-center">
-                <div className="mb-3 sm:mb-4 bg-blue-50 p-3 rounded-full">
+                <div className="mb-3 sm:mb-4">
                   {feature.icon}
                 </div>
                 <h3 className="text-base sm:text-lg font-semibold mb-1 sm:mb-2 text-blue-800">{feature.name}</h3>

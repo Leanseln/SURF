@@ -129,7 +129,7 @@ function Navbar() {
               transition-all duration-300 ease-in-out
             `}
           >
-            {["home", "features", "about", "team", "contact"].map((item) => (
+            {["home", "about", "features", "team", "contact"].map((item) => (
               <li key={item} className="py-3 md:py-0 border-b md:border-b-0 border-gray-100 last:border-b-0">
                 <a
                   href={`#${item}`}

@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar"
 import Features from "./components/Features"
 import About from "./components/About"
 import Team from "./components/Team"
+import MobileApp from "./components/MobileApp"
 import Contact from "./components/Contact"
 import Footer from "./components/Footer"
 import Hero from "./images/hero_section.png"
@@ -74,8 +75,9 @@ function Home() {
         </div>
       )}
       <main className="z-10">
-        <Features />
         <About />
+        <Features />
+        <MobileApp />
         <Team />
         <Contact />
       </main>

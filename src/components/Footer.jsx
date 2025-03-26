@@ -1,4 +1,4 @@
-import Logo from "../images/logogo.png"
+import Logo from "../images/LOGO.png"
 function Footer() {
     return(
         <footer className="bg-white py-2">

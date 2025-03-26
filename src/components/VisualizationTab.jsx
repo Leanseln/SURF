@@ -1,4 +1,3 @@
-// src/components/SurveyDashboard/VisualizationTab.jsx
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import ChartDisplay from './ChartDisplay';
 import QuestionSidebar from './QuestionSidebar';
@@ -26,8 +25,6 @@ const VisualizationTab = ({
     if (selectedQuestion === 7) {
       return processedCityData;
     }
-
-    // For matrix questions we'll handle separately
     const questionGroups = getQuestionGroups();
     if (questionGroups.matrix?.some(q => q.index === selectedQuestion)) {
       return [];
@@ -63,7 +60,7 @@ const VisualizationTab = ({
     if (groups.barChart?.some(q => q.index === questionIndex)) return 'bar';
     if (groups.matrix?.some(q => q.index === questionIndex)) return 'matrix';
     
-    return 'bar'; // Default fallback
+    return 'bar'; 
   };
 
   // Get selected matrix question title

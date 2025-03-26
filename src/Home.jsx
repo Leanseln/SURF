@@ -21,7 +21,6 @@ function Home() {
       <section id="home" className="relative min-h-screen flex items-center pt-16 pb-8 px-4 sm:px-6 lg:px-0 z-10">
         <div className="w-full max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row items-center">
-            {/* Text Content - Full width on mobile, half width on desktop */}
             <div className="w-full lg:w-1/2 text-center lg:text-left mb-8 lg:mb-0 lg:pl-16">
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-blue-800 mb-4 sm:mb-6 tracking-tight leading-none">
                 S.U.R.F

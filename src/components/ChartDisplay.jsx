@@ -3,10 +3,7 @@ import { ResponsiveContainer, PieChart, Pie, BarChart, Bar, Cell, XAxis, YAxis, 
 import PropTypes from 'prop-types';
 import MatrixQuestionDisplay from './MatrixQuestionDisplay';
 
-// Color schemes
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#FF6384', '#36A2EB', '#4BC0C0'];
-
-// Custom Tooltip Component
 const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (

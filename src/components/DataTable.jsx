@@ -24,8 +24,8 @@ const DataTable = ({ surveyData }) => {
 
   if (!surveyData || surveyData.length === 0) return <p>No survey data available.</p>;
 
-  const headers = surveyData[0]; // First row is headers
-  const rows = surveyData.slice(1); // Remaining rows
+  const headers = surveyData[0]; 
+  const rows = surveyData.slice(1); 
 
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;

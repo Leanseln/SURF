@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(true);
         localStorage.setItem("isAuthenticated", "true");
       } else {
-        // Check if we have a manually set authentication
+        // Check if authentication is set manually 
         const manualAuth = localStorage.getItem("isAuthenticated") === "true";
         setIsAuthenticated(manualAuth);
       }
@@ -59,24 +59,21 @@ export const AuthProvider = ({ children }) => {
       navigate('/dashboard');
     } catch (error) {
       console.error("Login error:", error.message);
-      throw error; // Rethrow to handle in the component
+      throw error;
     }
   };
 
   // Logout function
   const logout = async (navigate) => {
     try {
-      // Always clear local state
       setIsAuthenticated(false);
       localStorage.removeItem("isAuthenticated");
       
-      // If using Firebase auth, sign out
       if (user) {
         await signOut(auth);
         setUser(null);
       }
       
-      // Always navigate to login
       if (navigate) {
         navigate("/login");
       }

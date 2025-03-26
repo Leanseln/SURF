@@ -1,13 +1,13 @@
-import RAYMART from "../images/RAYMART.jpg"
-import NICO from "../images/NICO.png"
-import TOSOC from "../images/TOSOC.jpg"
-import LLOYD from "../images/LLOYD.jpg"
-import BUENAFE from "../images/BUENAFE.jpg"
-import MARCUS from "../images/MARCUS.jpg"
-import BAUTISTA from "../images/BAUTISTA.jpg"
-import GERENTE from "../images/GERENTE.jpg"
-import { FaGithubAlt, FaLinkedinIn } from "react-icons/fa"
-import { BiLogoGmail } from "react-icons/bi"
+import RAYMART from "../images/RAYMART.jpg";
+import NICO from "../images/NICO.png";
+import TOSOC from "../images/TOSOC.jpg";
+import LLOYD from "../images/LLOYD.jpg";
+import BUENAFE from "../images/BUENAFE.jpg";
+import MARCUS from "../images/MARCUS.jpg";
+import BAUTISTA from "../images/BAUTISTA.jpg";
+import GERENTE from "../images/GERENTE.jpg";
+import { FaGithubAlt, FaLinkedinIn } from "react-icons/fa";
+import { BiLogoGmail } from "react-icons/bi";
 
 function Team() {
   const teamMembers = [
@@ -141,7 +141,6 @@ function Team() {
           ))}
         </div>
         
-        {/* Small screen layout (2 columns) */}
         <div className="hidden sm:grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {teamMembers.map((member, index) => (
             <div key={index} className="text-center space-y-2 group bg-white p-3 rounded-lg  transition-all duration-300">

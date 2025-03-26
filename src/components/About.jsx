@@ -1,4 +1,4 @@
-import { Compass, Eye, Target } from "lucide-react"
+import { Compass, Eye, Target } from "lucide-react";
 
 function About() {
   const items = [
@@ -31,10 +31,8 @@ function About() {
             Innovative solutions for emergency response during flood disasters.
           </p>
         </div>
-        
-        {/* Responsive grid with centered Goals on md breakpoint */}
+
         <div className="grid grid-cols-1 gap-6 sm:gap-6">
-          {/* For md breakpoint, create a special layout */}
           <div className="hidden md:grid md:grid-cols-2 lg:hidden gap-6">
             <div className="flex flex-col items-center">
               <div className="h-full w-full bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col items-center text-center">
@@ -60,7 +58,6 @@ function About() {
             </div>
           </div>
           
-          {/* Centered Goals card for md breakpoint */}
           <div className="hidden md:flex md:justify-center lg:hidden">
             <div className="flex flex-col items-center md:w-1/2">
               <div className="h-full w-full bg-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col items-center text-center">
@@ -74,8 +71,7 @@ function About() {
               </div>
             </div>
           </div>
-          
-          {/* Original layout for mobile (smaller than md) */}
+
           <div className="grid grid-cols-1 gap-6 md:hidden">
             {items.map((item, index) => (
               <div key={index} className="flex flex-col items-center">
@@ -92,7 +88,6 @@ function About() {
             ))}
           </div>
           
-          {/* Original 3-column layout for large screens */}
           <div className="hidden lg:grid lg:grid-cols-3 gap-6">
             {items.map((item, index) => (
               <div key={index} className="flex flex-col items-center">

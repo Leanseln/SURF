@@ -1,15 +1,13 @@
-"use client"
+import { useRef, useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import Autoplay from "embla-carousel-autoplay";
+import { ChevronLeft, ChevronRight, Video, Compass, Shield } from "lucide-react";
+import App2 from "../images/I2.png";
+import App3 from "../images/I3.png";
 
-import { useRef, useState, useEffect } from "react"
-import PropTypes from "prop-types"
-import Autoplay from "embla-carousel-autoplay"
-import { ChevronLeft, ChevronRight, Video, Compass, Shield } from "lucide-react"
-import App2 from "../images/I2.png"
-import App3 from "../images/I3.png"
-
-import { cn } from "@/lib/utils"
-import { Card, CardContent } from "@/components/ui/card"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { cn } from "@/lib/utils";
+import { Card, CardContent } from "@/components/ui/card";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 function MobileAppShowcase({ className = "" }) {
   const [api, setApi] = useState(null)
@@ -60,7 +58,6 @@ function MobileAppShowcase({ className = "" }) {
   return (
     <section id="mobile-app" className={cn("py-16 md:py-24 bg-transparent", className)}>
       <div className="container px-4 md:px-6 max-w-7xl mx-auto">
-        {/* Improved Header */}
         <div className="text-center mb-12 md:mb-16 max-w-3xl mx-auto">
           <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-blue-800">S.U.R.F</h2>
           <h3 className="text-lg font-semibold text-blue-800 mb-4 uppercase tracking-widest">Control Platform</h3>
@@ -70,9 +67,7 @@ function MobileAppShowcase({ className = "" }) {
           </p>
         </div>
 
-        {/* Mobile App Showcase */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
-          {/* Phone Showcase */}
           <div className="w-full lg:w-1/2 relative max-w-md mx-auto">
             <Carousel
               setApi={setApi}
@@ -155,7 +150,6 @@ function MobileAppShowcase({ className = "" }) {
             </div>
           </div>
 
-          {/* Features Description - Updated to hide icon on small screens */}
           <div className="w-full lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 sm:gap-6">
             {appFeatures.map((feature, index) => (
               <div

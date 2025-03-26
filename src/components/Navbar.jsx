@@ -1,8 +1,6 @@
-"use client"
-
-import { useState, useEffect, useRef } from "react"
-import Logo from "../images/logogo.png"
-import { IoMenu, IoClose } from "react-icons/io5"
+import { useState, useEffect, useRef } from "react";
+import Logo from "../images/LOGO.png";
+import { IoMenu, IoClose } from "react-icons/io5";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -38,7 +36,6 @@ function Navbar() {
     }
   }, [])
 
-  // Set up intersection observer to detect which section is in view
   useEffect(() => {
     const sections = ["home", "features", "about", "team", "contact"]
     const sectionElements = sections.map((section) => document.getElementById(section))
@@ -146,8 +143,7 @@ function Navbar() {
                   `}
                 >
                   {item.charAt(0).toUpperCase() + item.slice(1)}
-                  
-                  {/* Active indicator line */}
+
                   <span
                     className={`absolute -bottom-1 left-0 right-0
                       h-0.5 bg-blue-600
@@ -163,7 +159,6 @@ function Navbar() {
         </div>
       </div>
       
-      {/* Mobile overlay */}
       {isOpen && (
         <div 
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden" 

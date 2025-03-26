@@ -9,7 +9,7 @@ module.exports = {
 			montserrat: ["Montserrat", "sans-serif"],
 		  },
 		screens: {
-		  xs: "480px", // Adding an extra small breakpoint
+		  xs: "480px",
 		},
 		colors: {
 		  border: "hsl(var(--border))",

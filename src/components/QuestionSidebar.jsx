@@ -1,4 +1,3 @@
-// src/components/SurveyDashboard/QuestionSidebar.jsx
 import PropTypes from 'prop-types';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';

@@ -43,8 +43,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { toast, Toaster } from 'sonner';
 import axios from 'axios';
-
-// Import Survey Dashboard components
 import VisualizationTab from './VisualizationTab';
 import DataTable from './DataTable';
 
@@ -137,11 +135,11 @@ const SurveyDashboard = () => {
         
         // Process all rows into usable format
         const data = rows.slice(1).map(row => {
-          return row.map((cell) => cell || ''); // Ensure no undefined values
+          return row.map((cell) => cell || ''); 
         });
 
         setSurveyData([headers, ...data]);
-        setSelectedQuestion(2); // Default to Age Group
+        setSelectedQuestion(2);
         
         // Set respondent count
         setRespondentCount(data.length);
@@ -164,7 +162,7 @@ const SurveyDashboard = () => {
 
   // Process city data to normalize case and group similar entries
   const processCityData = (headers, data) => {
-    const cityQuestionIndex = 7; // Assuming city question is at index 7
+    const cityQuestionIndex = 7;
     
     // Create a case-insensitive map of cities
     const cityMap = new Map();
@@ -188,7 +186,6 @@ const SurveyDashboard = () => {
     // Convert to array and sort by count
     const cityData = Array.from(cityMap.entries())
       .map(([name, value]) => ({
-        // Capitalize city name for display
         name: name.charAt(0).toUpperCase() + name.slice(1),
         value,
         percent: value / data.length
@@ -209,7 +206,6 @@ const SurveyDashboard = () => {
     
     // Find matrix question titles in headers
     matrixQuestionTitles.forEach(title => {
-      // Look for exact match first
       const exactMatchIndex = headers.findIndex(header => header === title);
       
       if (exactMatchIndex !== -1) {
@@ -221,7 +217,7 @@ const SurveyDashboard = () => {
         return;
       }
       
-      // Look for headers that contain the matrix title
+      // Headers that contain the matrix title
       for (let i = 0; i < headers.length; i++) {
         if (headers[i].includes(title)) {
           const existingEntry = matrixQuestions.find(q => q.text === title);
@@ -237,9 +233,8 @@ const SurveyDashboard = () => {
       }
     });
     
-    // Define other question types and their indexes
-    const pieChartQuestions = [2, 3, 4, 5, 6, 8]; // Age, Gender, Flood experience, etc.
-    const barChartQuestions = [7]; // City question
+    const pieChartQuestions = [2, 3, 4, 5, 6, 8];
+    const barChartQuestions = [7];
     
     return {
       pieChart: pieChartQuestions.map(index => ({ 
@@ -277,7 +272,6 @@ const SurveyDashboard = () => {
     if (!message.read) {
       try {
         await markMessageAsRead(message.id);
-        // Update the message in the local state
         setMessages(prevMessages => 
           prevMessages.map(msg => 
             msg.id === message.id ? { ...msg, read: true } : msg
@@ -306,7 +300,6 @@ const SurveyDashboard = () => {
       toast.success('Message deleted successfully');
       setIsDeleteDialogOpen(false);
       
-      // If the deleted message was the selected one, close the message view
       if (selectedMessage && selectedMessage.id === messageToDelete.id) {
         setIsMessageOpen(false);
       }
@@ -553,60 +546,60 @@ const SurveyDashboard = () => {
         </CardContent>
       </Card>
 
+
       {/* Message View Dialog */}
-      {/* Message View Dialog */}
-<Dialog open={isMessageOpen} onOpenChange={setIsMessageOpen}>
-  {selectedMessage && (
-    <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto w-[95vw]">
-      <DialogHeader>
-        <DialogTitle className="text-xl break-words">
-          Message from {selectedMessage.firstName} {selectedMessage.lastName}
-        </DialogTitle>
-        <DialogDescription>
-          <div className="mt-2 flex flex-col gap-1">
-            <span className="flex flex-col sm:flex-row sm:items-center gap-1">
-              <span className="font-medium">Email:</span> 
-              <span className="break-all">{selectedMessage.email}</span>
-            </span>
-            <span className="flex flex-col sm:flex-row sm:items-center gap-1">
-              <span className="font-medium">Phone:</span> 
-              <span>{selectedMessage.phone || 'Not provided'}</span>
-            </span>
-            <span className="flex flex-col sm:flex-row sm:items-center gap-1">
-              <span className="font-medium">Received:</span> 
-              <span>{new Date(selectedMessage.createdAt).toLocaleString()}</span>
-            </span>
-          </div>
-        </DialogDescription>
-      </DialogHeader>
-      <div className="mt-4 border-t pt-4">
-        <h4 className="font-medium mb-2">Message:</h4>
-        <div className="whitespace-pre-wrap break-words max-h-[40vh] overflow-y-auto p-2 bg-gray-50 rounded-md">
-          {selectedMessage.message}
-        </div>
-      </div>
-      <DialogFooter className="mt-4 flex flex-col-reverse sm:flex-row sm:justify-between gap-2">
-        <Button
-          variant="outline"
-          onClick={() => setIsMessageOpen(false)}
-          className="w-full sm:w-auto"
-        >
-          Close
-        </Button>
-        <Button
-          variant="destructive"
-          onClick={() => {
-            handleDeleteClick(selectedMessage);
-            setIsMessageOpen(false);
-          }}
-          className="bg-red-600 hover:bg-red-700 w-full sm:w-auto"
-        >
-          Delete
-        </Button>
-      </DialogFooter>
-    </DialogContent>
-  )}
-</Dialog>
+      <Dialog open={isMessageOpen} onOpenChange={setIsMessageOpen}>
+        {selectedMessage && (
+          <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto w-[95vw]">
+            <DialogHeader>
+              <DialogTitle className="text-xl break-words">
+                Message from {selectedMessage.firstName} {selectedMessage.lastName}
+              </DialogTitle>
+              <DialogDescription>
+                <div className="mt-2 flex flex-col gap-1">
+                  <span className="flex flex-col sm:flex-row sm:items-center gap-1">
+                    <span className="font-medium">Email:</span> 
+                    <span className="break-all">{selectedMessage.email}</span>
+                  </span>
+                  <span className="flex flex-col sm:flex-row sm:items-center gap-1">
+                    <span className="font-medium">Phone:</span> 
+                    <span>{selectedMessage.phone || 'Not provided'}</span>
+                  </span>
+                  <span className="flex flex-col sm:flex-row sm:items-center gap-1">
+                    <span className="font-medium">Received:</span> 
+                    <span>{new Date(selectedMessage.createdAt).toLocaleString()}</span>
+                  </span>
+                </div>
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-4 border-t pt-4">
+              <h4 className="font-medium mb-2">Message:</h4>
+              <div className="whitespace-pre-wrap break-words max-h-[40vh] overflow-y-auto p-2 bg-gray-50 rounded-md">
+                {selectedMessage.message}
+              </div>
+            </div>
+            <DialogFooter className="mt-4 flex flex-col-reverse sm:flex-row sm:justify-between gap-2">
+              <Button
+                variant="outline"
+                onClick={() => setIsMessageOpen(false)}
+                className="w-full sm:w-auto"
+              >
+                Close
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  handleDeleteClick(selectedMessage);
+                  setIsMessageOpen(false);
+                }}
+                className="bg-red-600 hover:bg-red-700 w-full sm:w-auto"
+              >
+                Delete
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        )}
+      </Dialog>
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>

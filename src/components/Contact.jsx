@@ -1,14 +1,13 @@
-"use client"
 import { toast, Toaster } from 'sonner';
-import { useState } from "react"
-import { useForm, FormProvider } from "react-hook-form"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormLabel, FormMessage, FormField, FormItem } from "@/components/ui/form"
-import { CiLocationOn, CiPhone, CiMail } from "react-icons/ci"
-import { FaFacebook } from "react-icons/fa"
-import emailjs from "@emailjs/browser"
-import { addMessage } from "../services/MessageService" 
+import { useState } from "react";
+import { useForm, FormProvider } from "react-hook-form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormLabel, FormMessage, FormField, FormItem } from "@/components/ui/form";
+import { CiLocationOn, CiPhone, CiMail } from "react-icons/ci";
+import { FaFacebook } from "react-icons/fa";
+import emailjs from "@emailjs/browser";
+import { addMessage } from "../services/MessageService" ;
 
 emailjs.init("buWFsEdX3RiydhvN0")
 
@@ -47,8 +46,8 @@ function Contact() {
       }
 
       const adminResponse = await emailjs.send(
-        "service_sayw23a", // Your EmailJS Service ID
-        "template_9s2gch2", // Your Admin Notification Template ID
+        "service_sayw23a", // EmailJS Service ID
+        "template_9s2gch2", // Admin Notification Template ID
         adminTemplateParams,
       )
 
@@ -62,8 +61,8 @@ function Contact() {
       }
 
       const userResponse = await emailjs.send(
-        "service_sayw23a", // Your EmailJS Service ID
-        "template_h2tx2i4", // Your Auto-Reply Template ID
+        "service_sayw23a", // EmailJS Service ID
+        "template_h2tx2i4", // Auto-Reply Template ID
         userTemplateParams,
       )
 
@@ -103,9 +102,7 @@ function Contact() {
           </p>
         </div>
 
-        {/* Form and contact info */}
         <div className="flex flex-col lg:flex-row lg:gap-6">
-          {/* Form section */}
           <div className="w-full lg:w-2/3 mb-6 lg:mb-0">
             <div className="bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md h-full">
               <h3 className="text-base sm:text-lg font-bold mb-4 sm:mb-6 text-blue-800">Send us a Message</h3>

@@ -23,17 +23,7 @@ function MobileAppShowcase({ className = "" }) {
     }),
   )
 
-  useEffect(() => {
-    if (!api) return
-
-    setCount(api.scrollSnapList().length)
-    setCurrent(api.selectedScrollSnap())
-
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap())
-    })
-  }, [api])
-
+ 
   const appFeatures = [
     {
       icon: <Video className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-blue-600" />,
